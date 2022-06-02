@@ -1,4 +1,4 @@
-import { Room, RoomOrientation, Tile } from "./Tile";
+import { Room, RoomDirection, RoomTemplates } from "./RoomEssentials";
 
 export enum FloorSize {
   standard = 4,
@@ -6,8 +6,8 @@ export enum FloorSize {
   xlarge = 16,
 }
 
-const ROOM_WIDTH = 10;
-const ROOM_HEIGHT = 8;
+const ROOM_WIDTH = 4; // def: 10
+const ROOM_HEIGHT = 4; // def: 8
 
 export default class FloorGenerator {
   readonly floorSize: FloorSize;
@@ -18,36 +18,40 @@ export default class FloorGenerator {
   }
 
   generate() {
-    const path = this.createMainPath(this.floorSize);
-    let message = "\n";
+    const route = this.createRoute(this.floorSize);
+
     for (let y = 0; y < this.floorSize; y++) {
       // Vertical crawl
       this.rooms[y] = [];
 
       for (let x = 0; x < this.floorSize; x++) {
-        let crit = path.find((p) => p.x === x && p.y === y);
+        let crit = route.find((p) => p.x === x && p.y === y);
 
-        if (crit !== undefined) {
-          message += crit.direction;
-        } else {
-          message += "0";
-        }
+        if (crit === undefined) {
+          const empRoom = new Room(x, y, 0);
+          const empTemplate = RoomTemplates.find([]);
 
-        if (x === 3) {
-          message += "\n";
+          empRoom.loadTiles(empTemplate?.tiles);
+
+          // empty room tile
+          this.rooms[y][x] = new Room(x, y, 0);
+          continue;
         }
 
         // Horizontal crawl
-        let room = new Room(x, y, RoomOrientation.left);
+        let room = new Room(x, y, crit.direction);
+        let template = RoomTemplates.find([crit.direction]);
+        room.loadTiles(template.tiles);
+
+        // valid, crit tile
         this.rooms[y][x] = room;
       }
     }
 
-    console.log(message);
     console.log("done");
   }
 
-  createMainPath(floorSize: FloorSize) {
+  createRoute(floorSize: FloorSize) {
     // bounds of the floor wall
     const FLOOR_BOUNDS = floorSize - 1;
 
@@ -60,118 +64,118 @@ export default class FloorGenerator {
     // current orientation
     let newDirection = 0;
 
-    // path array
-    var path = [];
+    // route array
+    var route = [];
 
     // seed array with first room
-    path.push({ x: currentX, y: currentY, direction: RoomOrientation.left });
+    route.push({ x: currentX, y: currentY, direction: RoomDirection.left });
 
     while (currentY < floorSize) {
       // pick a default direction
       if (newDirection === 0) {
         newDirection = this.randomDirection([
-          RoomOrientation.left,
-          RoomOrientation.left,
-          RoomOrientation.right,
-          RoomOrientation.right,
-          RoomOrientation.down,
+          RoomDirection.left,
+          RoomDirection.left,
+          RoomDirection.right,
+          RoomDirection.right,
+          RoomDirection.down,
         ]);
       }
 
-      if (newDirection === RoomOrientation.left) {
+      if (newDirection === RoomDirection.left) {
         // left
         if (currentX > 0) {
           // make sure we're not hitting the wall (x: 0)
-          path.push({
+          route.push({
             x: --currentX,
             y: currentY,
-            direction: RoomOrientation.left,
+            direction: RoomDirection.left,
           });
           newDirection = this.randomDirection([
-            RoomOrientation.left,
-            RoomOrientation.left,
-            RoomOrientation.left,
-            RoomOrientation.down,
+            RoomDirection.left,
+            RoomDirection.left,
+            RoomDirection.left,
+            RoomDirection.down,
           ]);
         } else {
           // if we hit a wall, go down and right
           if (currentY < FLOOR_BOUNDS) {
-            path.push({
+            route.push({
               x: currentX,
               y: currentY,
-              direction: RoomOrientation.right,
+              direction: RoomDirection.right,
             });
-            path.push({
+            route.push({
               x: currentX,
               y: currentY++,
-              direction: RoomOrientation.down,
+              direction: RoomDirection.down,
             });
-            newDirection = RoomOrientation.right;
+            newDirection = RoomDirection.right;
           } else {
             // no moves; exit out of loop
             ++currentY;
           }
         }
-      } else if (newDirection === RoomOrientation.right) {
+      } else if (newDirection === RoomDirection.right) {
         // right
         if (currentX < FLOOR_BOUNDS) {
           // make sure we're not hitting the wall (x: 3)
-          path.push({
+          route.push({
             x: ++currentX,
             y: currentY,
-            direction: RoomOrientation.right,
+            direction: RoomDirection.right,
           });
           newDirection = this.randomDirection([
-            RoomOrientation.right,
-            RoomOrientation.right,
-            RoomOrientation.right,
-            RoomOrientation.down,
+            RoomDirection.right,
+            RoomDirection.right,
+            RoomDirection.right,
+            RoomDirection.down,
           ]);
         } else {
           // if we hit a wall, go down and right
           if (currentY < FLOOR_BOUNDS) {
-            path.push({
+            route.push({
               x: currentX,
               y: currentY,
-              direction: RoomOrientation.right,
+              direction: RoomDirection.right,
             });
-            path.push({
+            route.push({
               x: currentX,
               y: ++currentY,
-              direction: RoomOrientation.down,
+              direction: RoomDirection.down,
             });
-            newDirection = RoomOrientation.left;
+            newDirection = RoomDirection.left;
           } else {
             // no moves; exit out of loop
             ++currentY;
           }
         }
-      } else if (newDirection === RoomOrientation.down) {
+      } else if (newDirection === RoomDirection.down) {
         // down
         if (currentY < FLOOR_BOUNDS) {
-          path.push({
+          route.push({
             x: currentX,
             y: currentY,
-            direction: RoomOrientation.right,
+            direction: RoomDirection.right,
           });
-          path.push({
+          route.push({
             x: currentX,
             y: ++currentY,
-            direction: RoomOrientation.down,
+            direction: RoomDirection.down,
           });
           newDirection = 0;
 
           if (currentX === FLOOR_BOUNDS) {
             newDirection = this.randomDirection([
-              RoomOrientation.left,
-              RoomOrientation.left,
-              RoomOrientation.down,
+              RoomDirection.left,
+              RoomDirection.left,
+              RoomDirection.down,
             ]);
           } else if (currentX === 0) {
             newDirection = this.randomDirection([
-              RoomOrientation.right,
-              RoomOrientation.right,
-              RoomOrientation.down,
+              RoomDirection.right,
+              RoomDirection.right,
+              RoomDirection.down,
             ]);
           }
         } else {
@@ -180,10 +184,10 @@ export default class FloorGenerator {
       }
     }
 
-    return path;
+    return route;
   }
 
-  randomDirection(directions: RoomOrientation[]): RoomOrientation {
+  randomDirection(directions: RoomDirection[]): RoomDirection {
     return directions[Math.floor(Math.random() * directions.length)];
   }
 }

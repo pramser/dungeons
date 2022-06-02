@@ -1,7 +1,7 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import Dungeon from "./Dungeon";
-import { Tile } from "../types/Tile";
+import { Tile } from "../types/RoomEssentials";
 
 export default function Game() {
   var data = {
