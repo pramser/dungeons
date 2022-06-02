@@ -22,24 +22,24 @@ export class Tile implements TileInterface {
   }
 }
 
-export enum RoomDirection {
-  left = 1,
-  right = 2,
-  down = 3,
-  up = 4,
+export enum RoomLayout {
+  isolated = 0,
+  leftRight = 1,
+  exitFloor = 2,
+  entranceCeiling = 3,
 }
 
 export class Room {
   readonly floorX: number;
   readonly floorY: number;
-  readonly direction: RoomDirection;
+  readonly layout: RoomLayout;
 
   tiles: Tile[] = [];
 
-  constructor(floorX: number, floorY: number, direction: RoomDirection) {
+  constructor(floorX: number, floorY: number, layout: RoomLayout) {
     this.floorX = floorX;
     this.floorY = floorY;
-    this.direction = direction;
+    this.layout = layout;
   }
 
   addTile(name: string, x: number, y: number) {
@@ -56,100 +56,86 @@ export class Room {
 }
 
 export class RoomTemplate {
-  readonly directions: RoomDirection[];
+  readonly layout: RoomLayout;
   readonly tiles: Tile[];
 
-  constructor(directions: RoomDirection[], tiles: Tile[]) {
-    this.directions = directions;
+  constructor(layout: RoomLayout, tiles: Tile[]) {
+    this.layout = layout;
     this.tiles = tiles;
   }
 }
 
 export class RoomTemplates {
-  static find(direction: RoomDirection): RoomTemplate {
+  static find(layout: RoomLayout): RoomTemplate {
     return (
-      this.roomTemplates.find((template) =>
-        template.directions.includes(direction)
-      ) ??
-      new RoomTemplate(
-        [],
-        [
-          new Tile("floor", 0, 1),
-          new Tile("floor", 0, 2),
-          new Tile("floor", 1, 1),
-          new Tile("floor", 1, 2),
-          new Tile("floor", 2, 1),
-          new Tile("floor", 2, 2),
-          new Tile("floor", 3, 1),
-          new Tile("floor", 3, 2),
-        ]
-      )
+      this.roomTemplates.find((template) => template.layout === layout) ??
+      new RoomTemplate(RoomLayout.isolated, [
+        new Tile("floor", 0, 1),
+        new Tile("floor", 0, 2),
+        new Tile("floor", 1, 1),
+        new Tile("floor", 1, 2),
+        new Tile("floor", 2, 1),
+        new Tile("floor", 2, 2),
+        new Tile("floor", 3, 1),
+        new Tile("floor", 3, 2),
+      ])
     );
   }
 
   static roomTemplates: RoomTemplate[] = [
-    new RoomTemplate(
-      [RoomDirection.left, RoomDirection.right],
-      [
-        new Tile("floor", 0, 0),
-        new Tile("floor", 0, 1),
-        new Tile("floor", 0, 2),
-        new Tile("floor", 0, 3),
-        new Tile("floor", 1, 0),
-        new Tile("floor", 1, 1),
-        new Tile("floor", 1, 2),
-        new Tile("floor", 1, 3),
-        new Tile("floor", 2, 0),
-        new Tile("floor", 2, 1),
-        new Tile("floor", 2, 2),
-        new Tile("floor", 2, 3),
-        new Tile("floor", 3, 0),
-        new Tile("floor", 3, 1),
-        new Tile("floor", 3, 2),
-        new Tile("floor", 3, 3),
-      ]
-    ),
-    new RoomTemplate(
-      [RoomDirection.left, RoomDirection.right, RoomDirection.up],
-      [
-        new Tile("floor", 0, 0),
-        new Tile("floor", 0, 1),
-        new Tile("floor", 0, 2),
-        new Tile("floor", 0, 3),
-        new Tile("floor", 1, 0),
-        new Tile("floor", 1, 1),
-        new Tile("floor", 1, 2),
-        new Tile("floor", 1, 3),
-        new Tile("floor", 2, 0),
-        new Tile("floor", 2, 1),
-        new Tile("floor", 2, 2),
-        new Tile("floor", 2, 3),
-        new Tile("floor", 3, 0),
-        new Tile("floor", 3, 1),
-        new Tile("floor", 3, 2),
-        new Tile("floor", 3, 3),
-      ]
-    ),
-    new RoomTemplate(
-      [RoomDirection.left, RoomDirection.right, RoomDirection.down],
-      [
-        new Tile("floor", 0, 0),
-        new Tile("floor", 0, 1),
-        new Tile("floor", 0, 2),
-        new Tile("floor", 0, 3),
-        new Tile("floor", 1, 0),
-        new Tile("floor", 1, 1),
-        new Tile("floor", 1, 2),
-        new Tile("floor", 1, 3),
-        new Tile("floor", 2, 0),
-        new Tile("floor", 2, 1),
-        new Tile("floor", 2, 2),
-        new Tile("floor", 2, 3),
-        new Tile("floor", 3, 0),
-        new Tile("floor", 3, 1),
-        new Tile("floor", 3, 2),
-        new Tile("floor", 3, 3),
-      ]
-    ),
+    new RoomTemplate(RoomLayout.leftRight, [
+      new Tile("floor", 0, 0),
+      new Tile("floor", 0, 1),
+      new Tile("floor", 0, 2),
+      new Tile("floor", 0, 3),
+      new Tile("floor", 1, 0),
+      new Tile("floor", 1, 1),
+      new Tile("floor", 1, 2),
+      new Tile("floor", 1, 3),
+      new Tile("floor", 2, 0),
+      new Tile("floor", 2, 1),
+      new Tile("floor", 2, 2),
+      new Tile("floor", 2, 3),
+      new Tile("floor", 3, 0),
+      new Tile("floor", 3, 1),
+      new Tile("floor", 3, 2),
+      new Tile("floor", 3, 3),
+    ]),
+    new RoomTemplate(RoomLayout.entranceCeiling, [
+      new Tile("floor", 0, 0),
+      new Tile("floor", 0, 1),
+      new Tile("floor", 0, 2),
+      new Tile("floor", 0, 3),
+      new Tile("floor", 1, 0),
+      new Tile("floor", 1, 1),
+      new Tile("floor", 1, 2),
+      new Tile("floor", 1, 3),
+      new Tile("floor", 2, 0),
+      new Tile("floor", 2, 1),
+      new Tile("floor", 2, 2),
+      new Tile("floor", 2, 3),
+      new Tile("floor", 3, 0),
+      new Tile("floor", 3, 1),
+      new Tile("floor", 3, 2),
+      new Tile("floor", 3, 3),
+    ]),
+    new RoomTemplate(RoomLayout.exitFloor, [
+      new Tile("floor", 0, 0),
+      new Tile("floor", 0, 1),
+      new Tile("floor", 0, 2),
+      new Tile("floor", 0, 3),
+      new Tile("floor", 1, 0),
+      new Tile("floor", 1, 1),
+      new Tile("floor", 1, 2),
+      new Tile("floor", 1, 3),
+      new Tile("floor", 2, 0),
+      new Tile("floor", 2, 1),
+      new Tile("floor", 2, 2),
+      new Tile("floor", 2, 3),
+      new Tile("floor", 3, 0),
+      new Tile("floor", 3, 1),
+      new Tile("floor", 3, 2),
+      new Tile("floor", 3, 3),
+    ]),
   ];
 }

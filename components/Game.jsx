@@ -8,12 +8,20 @@ export default function Game() {
   let floorGenerator = new FloorGenerator(FloorSize.standard);
   let rooms = floorGenerator.generate();
 
+  let message = "\n";
+
   // rooms
   for (var yRoom = 0; yRoom < rooms.length; yRoom++) {
     for (var xRoom = 0; xRoom < rooms[yRoom].length; xRoom++) {
-      console.log(rooms[yRoom][xRoom]);
+      message += rooms[yRoom][xRoom].layout || "0";
+
+      if (xRoom === 3) {
+        message += "\n";
+      }
     }
   }
+
+  console.log(message);
 
   var data = {
     set: "default",
