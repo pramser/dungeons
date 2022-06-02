@@ -8,33 +8,39 @@ import {
 } from "react-native";
 
 export default function Dungeon(props) {
-  const [tiles, setTiles] = useState(props.data.tiles);
+  const [rooms2d, setRooms] = useState(props.data.rooms);
 
   return (
     <ScrollView contentContainerStyle={styles.scrollView}>
       <View style={styles.container}>
-        {tiles.map((tile) => {
-          const { x, y } = convertToIso(tile.x, tile.y);
-          const key = `${tile.name} x:${x}, y: ${y}`;
-          return (
-            <TouchableHighlight
-              key={key}
-              onPress={() =>
-                setTiles(tiles.filter((t) => t.getId() !== tile.getId()))
-              }
-            >
-              <Image
-                key={key}
-                source={require("../assets/worlds/default/tiles/dungeon/ground.png")}
-                style={{
-                  position: "absolute",
-                  left: x,
-                  top: y,
-                }}
-              />
-            </TouchableHighlight>
-          );
-        })}
+        {rooms2d.map((rooms) =>
+          rooms.map(({ floorX, floorY, tiles }) =>
+            tiles.map((tile, t) => {
+              // calculate x, y with room offset
+              let relativeX = tile.x * (floorX + 1);
+              let relativeY = tile.y * (floorY + 1);
+
+              // x, y for images
+              const { x, y } = convertToIso(relativeX, relativeY);
+              return (
+                <TouchableHighlight
+                  key={`touch-${t} (${x}, ${y})`}
+                  onPress={() => console.log("touched")}
+                >
+                  <Image
+                    key={`tile-${t} (${x}, ${y})`}
+                    source={require("../assets/worlds/default/tiles/dungeon/ground.png")}
+                    style={{
+                      position: "absolute",
+                      left: x,
+                      top: y,
+                    }}
+                  />
+                </TouchableHighlight>
+              );
+            })
+          )
+        )}
       </View>
     </ScrollView>
   );

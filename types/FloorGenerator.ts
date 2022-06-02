@@ -35,9 +35,8 @@ export default class FloorGenerator {
 
         if (crit === undefined) {
           const empRoom = new Room(x, y, 0);
-          const empTemplate = RoomTemplates.find(-1);
-
-          empRoom.loadTiles(empTemplate?.tiles);
+          const empTemplate = RoomTemplates.find(0);
+          empRoom.loadTiles(empTemplate.tiles);
 
           // empty room tile
           this.rooms[y][x] = new Room(x, y, 0);
@@ -54,7 +53,6 @@ export default class FloorGenerator {
       }
     }
 
-    console.log("done");
     return this.rooms;
   }
 
