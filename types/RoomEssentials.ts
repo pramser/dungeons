@@ -32,14 +32,14 @@ export enum RoomDirection {
 export class Room {
   readonly floorX: number;
   readonly floorY: number;
-  readonly orientation: RoomDirection;
+  readonly direction: RoomDirection;
 
   tiles: Tile[] = [];
 
-  constructor(floorX: number, floorY: number, orientation: RoomDirection) {
+  constructor(floorX: number, floorY: number, direction: RoomDirection) {
     this.floorX = floorX;
     this.floorY = floorY;
-    this.orientation = orientation;
+    this.direction = direction;
   }
 
   addTile(name: string, x: number, y: number) {
@@ -66,10 +66,10 @@ export class RoomTemplate {
 }
 
 export class RoomTemplates {
-  static find(directions: RoomDirection[]): RoomTemplate {
+  static find(direction: RoomDirection): RoomTemplate {
     return (
-      this.roomTemplates.find(
-        (template) => template.directions === directions
+      this.roomTemplates.find((template) =>
+        template.directions.includes(direction)
       ) ?? new RoomTemplate([], [])
     );
   }

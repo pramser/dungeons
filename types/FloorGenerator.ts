@@ -40,7 +40,7 @@ export default class FloorGenerator {
 
         // Horizontal crawl
         let room = new Room(x, y, crit.direction);
-        let template = RoomTemplates.find([crit.direction]);
+        let template = RoomTemplates.find(crit.direction);
         room.loadTiles(template.tiles);
 
         // valid, crit tile
@@ -49,6 +49,7 @@ export default class FloorGenerator {
     }
 
     console.log("done");
+    return this.rooms;
   }
 
   createRoute(floorSize: FloorSize) {

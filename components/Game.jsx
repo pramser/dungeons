@@ -2,25 +2,23 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import Dungeon from "./Dungeon";
 import { Tile } from "../types/RoomEssentials";
+import FloorGenerator, { FloorSize } from "../types/FloorGenerator";
 
 export default function Game() {
+  let floorGenerator = new FloorGenerator(FloorSize.standard);
+  let rooms = floorGenerator.generate();
+
+  // rooms
+  for (var yRoom = 0; yRoom < rooms.length; yRoom++) {
+    for (var xRoom = 0; xRoom < rooms[yRoom].length; xRoom++) {
+      console.log(rooms[yRoom][xRoom]);
+    }
+  }
+
   var data = {
     set: "default",
     type: "dungeon",
-    tiles: [
-      new Tile("ground", 1, 1),
-      new Tile("ground", 2, 1),
-      new Tile("ground", 3, 1),
-      new Tile("ground", 4, 1),
-      new Tile("ground", 1, 2),
-      new Tile("ground", 2, 2),
-      new Tile("ground", 3, 2),
-      new Tile("ground", 4, 2),
-      new Tile("ground", 2, 3),
-      new Tile("ground", 3, 3),
-      new Tile("ground", 3, 4),
-      new Tile("ground", 4, 4),
-    ],
+    tiles: [new Tile("ground", 1, 1)],
   };
 
   return (
