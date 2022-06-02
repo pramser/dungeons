@@ -70,24 +70,24 @@ export class RoomTemplates {
     return (
       this.roomTemplates.find((template) =>
         template.directions.includes(direction)
-      ) ?? new RoomTemplate([], [])
+      ) ??
+      new RoomTemplate(
+        [],
+        [
+          new Tile("floor", 0, 1),
+          new Tile("floor", 0, 2),
+          new Tile("floor", 1, 1),
+          new Tile("floor", 1, 2),
+          new Tile("floor", 2, 1),
+          new Tile("floor", 2, 2),
+          new Tile("floor", 3, 1),
+          new Tile("floor", 3, 2),
+        ]
+      )
     );
   }
 
   static roomTemplates: RoomTemplate[] = [
-    new RoomTemplate(
-      [],
-      [
-        new Tile("floor", 0, 1),
-        new Tile("floor", 0, 2),
-        new Tile("floor", 1, 1),
-        new Tile("floor", 1, 2),
-        new Tile("floor", 2, 1),
-        new Tile("floor", 2, 2),
-        new Tile("floor", 3, 1),
-        new Tile("floor", 3, 2),
-      ]
-    ),
     new RoomTemplate(
       [RoomDirection.left, RoomDirection.right],
       [

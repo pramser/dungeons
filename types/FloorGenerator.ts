@@ -29,7 +29,7 @@ export default class FloorGenerator {
 
         if (crit === undefined) {
           const empRoom = new Room(x, y, 0);
-          const empTemplate = RoomTemplates.find([]);
+          const empTemplate = RoomTemplates.find(-1);
 
           empRoom.loadTiles(empTemplate?.tiles);
 
