@@ -12,7 +12,7 @@ export default function Game() {
     "dungeon"
   );
 
-  var data = gameManager.loadGame();
+  var data = gameManager.createGame();
 
   return (
     <View style={styles.container}>
