@@ -4,10 +4,12 @@ import Dungeon from "./Dungeon";
 import FloorGenerator, { FloorSize } from "../types/FloorGenerator";
 
 export default function Game() {
-  let floorGenerator = new FloorGenerator(FloorSize.standard);
+  let floorSize = FloorSize.small;
+  let floorGenerator = new FloorGenerator(floorSize);
   let rooms = floorGenerator.generate();
 
   var data = {
+    floorSize,
     set: "default",
     type: "dungeon",
     rooms,

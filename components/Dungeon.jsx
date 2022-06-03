@@ -1,18 +1,20 @@
 import { useState } from "react";
-import { Image, StyleSheet, TouchableHighlight, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
-import { images } from "../types/Images";
+
 import Tile from "./Tile";
 
 export default function Dungeon(props) {
   const [rooms2d, setRooms] = useState(props.data.rooms);
+
+  const floorSize = props.data.floorSize;
   const set = props.data.set;
   const type = props.data.type;
 
   return (
     <ReactNativeZoomableView
-      contentWidth={1024}
-      contentHeight={768}
+      contentWidth={3000}
+      contentHeight={3000}
       maxZoom={1.2}
       minZoom={0.8}
       style={styles.zoomView}
@@ -22,8 +24,8 @@ export default function Dungeon(props) {
           rooms.map(({ floorX, floorY, tiles }) =>
             tiles.map((tile, t) => {
               // calculate x, y with room offset
-              let relativeX = tile.x + floorX * 4;
-              let relativeY = tile.y + floorY * 4;
+              let relativeX = tile.x + floorX * floorSize;
+              let relativeY = tile.y + floorY * floorSize;
 
               // x, y for images
               const position = convertToIso(relativeX, relativeY);

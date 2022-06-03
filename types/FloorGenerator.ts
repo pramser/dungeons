@@ -1,9 +1,10 @@
 import { Room, RoomLayout, RoomTemplates } from "./RoomEssentials";
 
 export enum FloorSize {
-  standard = 4,
-  large = 8,
-  xlarge = 16,
+  tiny = 4,
+  small = 8,
+  standard = 16,
+  large = 24,
 }
 
 const ROOM_WIDTH = 4; // def: 10
