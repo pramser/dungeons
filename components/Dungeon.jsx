@@ -7,6 +7,7 @@ import GameObject from "./GameObject";
 
 export default function Dungeon(props) {
   const [rooms2d, setRooms] = useState(props.data.rooms);
+  const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 0 });
 
   const floorSize = props.data.floorSize;
   const set = props.data.set;
@@ -35,13 +36,16 @@ export default function Dungeon(props) {
                 <Tile
                   position={position}
                   image={{ name: tile.name, set, type }}
+                  onPress={(pos) =>
+                    setPlayerPosition({ x: pos.x, y: pos.y })
+                  }
                 />
               );
             })
           )
         )}
         <GameObject
-          position={convertToIso(6, 5)}
+          position={playerPosition}
           image={{
             direction: "left_down",
             name: "ramza",

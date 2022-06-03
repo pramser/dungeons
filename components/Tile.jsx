@@ -19,7 +19,7 @@ export default function Tile(props) {
   return (
     <TouchableHighlight
       key={`touch (${x}, ${y})`}
-      onPress={() => setIsTouched(!isTouched)}
+      onPress={() => onPress(props.position)}
     >
       <Image
         key={`tile (${x}, ${y})`}
