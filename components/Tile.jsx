@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Image, TouchableHighlight } from "react-native";
-import { tiles } from "../assets";
+import { tiles } from "../assets/tiles";
 
 export default function Tile(props) {
   const { x, y } = props.position;
