@@ -11,7 +11,7 @@ export default function GameObject(props) {
   const style = {
     position: "absolute",
     left: x,
-    top: y,
+    top: y - 32,
   };
 
   return (
