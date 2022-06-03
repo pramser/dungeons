@@ -23,7 +23,7 @@ export default function Dungeon(props) {
     >
       <View style={styles.container}>
         {rooms2d.map((rooms) =>
-          rooms.map(({ floorX, floorY, tiles }) =>
+          rooms.map(({ floorX, floorY, portalType, tiles }) =>
             tiles.map((tile) => {
               // calculate x, y with room offset
               let relativeX = tile.x + floorX * floorSize;
@@ -34,11 +34,10 @@ export default function Dungeon(props) {
 
               return (
                 <Tile
+                  key={`tile (${relativeX}, ${relativeY})`}
                   position={position}
                   image={{ name: tile.name, set, type }}
-                  onPress={(pos) =>
-                    setPlayerPosition({ x: pos.x, y: pos.y })
-                  }
+                  onPress={(pos) => setPlayerPosition({ x: pos.x, y: pos.y })}
                 />
               );
             })

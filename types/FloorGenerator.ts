@@ -1,4 +1,4 @@
-import { Room, RoomLayout, RoomTemplates } from "./RoomEssentials";
+import { PortalType, Room, RoomLayout, RoomTemplates } from "./RoomEssentials";
 
 export enum FloorSize {
   tiny = 4,
@@ -53,6 +53,9 @@ export default class FloorGenerator {
         let template = RoomTemplates.find(crit.layout);
         room.loadTiles(template.tiles);
 
+        // set room's portal status (entrance, exit)
+        room.portalType = crit.portal as PortalType;
+
         // valid, crit tile
         this.rooms[y][x] = room;
       }
@@ -81,7 +84,8 @@ export default class FloorGenerator {
       // existing element
       let existingIndex = route.findIndex((r) => r.x === x && r.y === y);
       if (existingIndex > -1) {
-        route[existingIndex] = { x, y, layout };
+        let existing = route[existingIndex];
+        route[existingIndex] = { ...existing, x, y, layout };
         return;
       }
 
@@ -91,6 +95,7 @@ export default class FloorGenerator {
 
     // seed array with first room
     addToRoute(currentX, currentY, RoomLayout.leftRight);
+    route[0].portal = PortalType.entrance;
 
     while (currentY < floorSize) {
       // pick a default direction
@@ -147,6 +152,10 @@ export default class FloorGenerator {
       }
     }
 
+    // change last room in route to exit
+    route[route.length - 1].portal = PortalType.exit;
+
+    // return completed route
     return route;
   }
 

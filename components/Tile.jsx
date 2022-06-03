@@ -22,7 +22,7 @@ export default function Tile(props) {
       onPress={() => onPress(props.position)}
     >
       <Image
-        key={`tile (${x}, ${y})`}
+        key={`image (${x}, ${y})`}
         source={tiles[set][type][isTouched ? "highlight" : name].uri}
         style={style}
       />

@@ -29,10 +29,18 @@ export enum RoomLayout {
   entranceCeiling = 3,
 }
 
+export enum PortalType {
+  none = 0,
+  entrance = 1,
+  exit = 2,
+}
+
 export class Room {
   readonly floorX: number;
   readonly floorY: number;
   readonly layout: RoomLayout;
+
+  portalType: PortalType = 0;
 
   tiles: Tile[] = [];
 
@@ -48,6 +56,10 @@ export class Room {
 
   loadTiles(tiles: Tile[]): void {
     this.tiles = tiles;
+  }
+
+  isPortal() {
+    return this.portalType > 0;
   }
 
   describe(): string {
