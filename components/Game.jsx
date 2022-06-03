@@ -1,19 +1,18 @@
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 
 import Dungeon from "./Dungeon";
-import FloorGenerator, { FloorSize } from "../types/FloorGenerator";
+import { FloorSize, RoomSize } from "../types/FloorGenerator";
+import GameManager from "../types/GameManager";
 
 export default function Game() {
-  let floorSize = FloorSize.small;
-  let floorGenerator = new FloorGenerator(floorSize);
-  let rooms = floorGenerator.generate();
+  let gameManager = new GameManager(
+    FloorSize.small,
+    RoomSize.normal,
+    "default",
+    "dungeon"
+  );
 
-  var data = {
-    floorSize,
-    set: "default",
-    type: "dungeon",
-    rooms,
-  };
+  var data = gameManager.loadGame();
 
   return (
     <View style={styles.container}>

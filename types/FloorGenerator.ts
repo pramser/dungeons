@@ -7,8 +7,12 @@ export enum FloorSize {
   large = 24,
 }
 
-const ROOM_WIDTH = 4; // def: 10
-const ROOM_HEIGHT = 4; // def: 8
+export enum RoomSize {
+  tiny = 2,
+  small = 4,
+  normal = 8,
+  large = 16,
+}
 
 enum RoomDirection {
   left = 1,
