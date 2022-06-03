@@ -22,7 +22,7 @@ export default function Dungeon(props) {
       <View style={styles.container}>
         {rooms2d.map((rooms) =>
           rooms.map(({ floorX, floorY, tiles }) =>
-            tiles.map((tile, t) => {
+            tiles.map((tile) => {
               // calculate x, y with room offset
               let relativeX = tile.x + floorX * floorSize;
               let relativeY = tile.y + floorY * floorSize;
@@ -45,12 +45,12 @@ export default function Dungeon(props) {
 }
 
 function convertToIso(x, y) {
-  const WIDTH = 64;
-  const HEIGHT = 64;
+  const TILE_WIDTH = 64;
+  const TILE_HEIGHT = 64;
 
   return {
-    x: x * 1 * 0.5 * WIDTH + y * -1 * 0.5 * WIDTH,
-    y: x * 0.5 * 0.5 * HEIGHT + y * 0.5 * 0.5 * HEIGHT,
+    x: x * 1 * 0.5 * TILE_WIDTH + y * -1 * 0.5 * TILE_WIDTH,
+    y: x * 0.5 * 0.5 * TILE_HEIGHT + y * 0.5 * 0.5 * TILE_HEIGHT,
   };
 }
 
