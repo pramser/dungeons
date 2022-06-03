@@ -26,3 +26,20 @@ export const tiles = {
     },
   },
 };
+
+export const objects = {
+  default: {
+    items: {
+      chest: {
+        uri: require("./default/objects/players/ramza/left_down.png"),
+      },
+    },
+    players: {
+      ramza: {
+        left_down: {
+          uri: require("./default/objects/players/ramza/left_down.png"),
+        },
+      },
+    },
+  },
+};

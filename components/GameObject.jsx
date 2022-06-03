@@ -1,12 +1,10 @@
 import { useState } from "react";
 import { Image, TouchableHighlight } from "react-native";
-import { tiles } from "../assets";
+import { objects } from "../assets";
 
-export default function Tile(props) {
+export default function GameObject(props) {
   const { x, y } = props.position;
-  const { name, set, type } = props.image;
-
-  const onPress = props.onPress;
+  const { direction, name, set, type } = props.image;
 
   const [isTouched, setIsTouched] = useState(false);
 
@@ -22,8 +20,8 @@ export default function Tile(props) {
       onPress={() => setIsTouched(!isTouched)}
     >
       <Image
-        key={`tile (${x}, ${y})`}
-        source={tiles[set][type][isTouched ? "highlight" : name].uri}
+        key={`object (${x}, ${y})`}
+        source={objects[set][type][name][direction].uri}
         style={style}
       />
     </TouchableHighlight>

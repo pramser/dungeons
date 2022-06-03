@@ -3,6 +3,7 @@ import { StyleSheet, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 import Tile from "./Tile";
+import GameObject from "./GameObject";
 
 export default function Dungeon(props) {
   const [rooms2d, setRooms] = useState(props.data.rooms);
@@ -39,6 +40,15 @@ export default function Dungeon(props) {
             })
           )
         )}
+        <GameObject
+          position={convertToIso(6, 5)}
+          image={{
+            direction: "left_down",
+            name: "ramza",
+            set: "default",
+            type: "players",
+          }}
+        />
       </View>
     </ReactNativeZoomableView>
   );
@@ -61,5 +71,10 @@ const styles = StyleSheet.create({
   container: {
     top: 10,
     position: "absolute",
+  },
+  player: {
+    position: "absolute",
+    top: 10,
+    zIndex: 100,
   },
 });
