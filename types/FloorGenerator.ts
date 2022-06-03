@@ -39,7 +39,7 @@ export default class FloorGenerator {
           empRoom.loadTiles(empTemplate.tiles);
 
           // empty room tile
-          this.rooms[y][x] = new Room(x, y, 0);
+          this.rooms[y][x] = empRoom;
           continue;
         }
 
