@@ -13,10 +13,10 @@ export default function Dungeon(props) {
 
   return (
     <ReactNativeZoomableView
-      contentWidth={3000}
-      contentHeight={3000}
+      contentWidth={4000}
+      contentHeight={4000}
       maxZoom={1.2}
-      minZoom={0.8}
+      minZoom={0.2}
       style={styles.zoomView}
     >
       <View style={styles.container}>
