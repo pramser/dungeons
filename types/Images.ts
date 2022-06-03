@@ -4,6 +4,9 @@ export const images = {
       ground: {
         uri: require("../assets/worlds/default/tiles/desert/ground.png"),
       },
+      highlight: {
+        uri: require("../assets/worlds/default/tiles/desert/highlight.png"),
+      },
     },
     dungeon: {
       ground: {
@@ -16,6 +19,9 @@ export const images = {
     plains: {
       ground: {
         uri: require("../assets/worlds/default/tiles/plains/ground.png"),
+      },
+      highlight: {
+        uri: require("../assets/worlds/default/tiles/plains/highlight.png"),
       },
     },
   },
