@@ -2,6 +2,7 @@ import { useState } from "react";
 import { Image, StyleSheet, TouchableHighlight, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 import { images } from "../types/Images";
+import Tile from "./Tile";
 
 export default function Dungeon(props) {
   const [rooms2d, setRooms] = useState(props.data.rooms);
@@ -25,23 +26,13 @@ export default function Dungeon(props) {
               let relativeY = tile.y + floorY * 4;
 
               // x, y for images
-              const { x, y } = convertToIso(relativeX, relativeY);
+              const position = convertToIso(relativeX, relativeY);
 
               return (
-                <TouchableHighlight
-                  key={`touch-${t} (${x}, ${y})`}
-                  onPress={() => console.log("touched")}
-                >
-                  <Image
-                    key={`tile-${t} (${x}, ${y})`}
-                    source={images[set][type][tile.name].uri}
-                    style={{
-                      position: "absolute",
-                      left: x,
-                      top: y,
-                    }}
-                  />
-                </TouchableHighlight>
+                <Tile
+                  position={position}
+                  image={{ name: tile.name, set, type }}
+                />
               );
             })
           )
