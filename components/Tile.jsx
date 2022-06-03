@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { Image, TouchableHighlight } from "react-native";
-import { images } from "../types/Images";
+import { tiles } from "../assets";
 
 export default function Tile(props) {
   const { x, y } = props.position;
@@ -23,7 +23,7 @@ export default function Tile(props) {
     >
       <Image
         key={`tile (${x}, ${y})`}
-        source={images[set][type][isTouched ? "highlight" : name].uri}
+        source={tiles[set][type][isTouched ? "highlight" : name].uri}
         style={style}
       />
     </TouchableHighlight>
