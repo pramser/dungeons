@@ -1,27 +1,32 @@
 import { useState } from "react";
-import {
-  Image,
-  ScrollView,
-  StyleSheet,
-  TouchableHighlight,
-  View,
-} from "react-native";
+import { Image, StyleSheet, TouchableHighlight, View } from "react-native";
+import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
+import { images } from "../types/Images";
 
 export default function Dungeon(props) {
   const [rooms2d, setRooms] = useState(props.data.rooms);
+  const set = props.data.set;
+  const type = props.data.type;
 
   return (
-    <ScrollView contentContainerStyle={styles.scrollView}>
+    <ReactNativeZoomableView
+      contentWidth={1024}
+      contentHeight={768}
+      maxZoom={1.2}
+      minZoom={0.8}
+      style={styles.zoomView}
+    >
       <View style={styles.container}>
         {rooms2d.map((rooms) =>
           rooms.map(({ floorX, floorY, tiles }) =>
             tiles.map((tile, t) => {
               // calculate x, y with room offset
-              let relativeX = tile.x * (floorX + 1);
-              let relativeY = tile.y * (floorY + 1);
+              let relativeX = tile.x + floorX * 4;
+              let relativeY = tile.y + floorY * 4;
 
               // x, y for images
               const { x, y } = convertToIso(relativeX, relativeY);
+
               return (
                 <TouchableHighlight
                   key={`touch-${t} (${x}, ${y})`}
@@ -29,7 +34,7 @@ export default function Dungeon(props) {
                 >
                   <Image
                     key={`tile-${t} (${x}, ${y})`}
-                    source={require("../assets/worlds/default/tiles/dungeon/ground.png")}
+                    source={images[set][type][tile.name].uri}
                     style={{
                       position: "absolute",
                       left: x,
@@ -42,7 +47,7 @@ export default function Dungeon(props) {
           )
         )}
       </View>
-    </ScrollView>
+    </ReactNativeZoomableView>
   );
 }
 
@@ -57,13 +62,11 @@ function convertToIso(x, y) {
 }
 
 const styles = StyleSheet.create({
-  scrollView: {
+  zoomView: {
     flex: 1,
   },
   container: {
-    flex: 1,
-    backgroundColor: "#fff",
+    top: 10,
     position: "absolute",
-    left: 160,
   },
 });

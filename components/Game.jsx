@@ -4,7 +4,7 @@ import Dungeon from "./Dungeon";
 import FloorGenerator, { FloorSize } from "../types/FloorGenerator";
 
 export default function Game() {
-  let floorGenerator = new FloorGenerator(2);
+  let floorGenerator = new FloorGenerator(FloorSize.standard);
   let rooms = floorGenerator.generate();
 
   var data = {
@@ -29,7 +29,7 @@ export default function Game() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#fff",
+    backgroundColor: "#ccc",
   },
   floatingButton: {
     width: 60,
