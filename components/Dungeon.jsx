@@ -3,30 +3,27 @@ import { StyleSheet, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 import Room from "./Room";
+import GameObject from "./GameObject";
 
-export default function Dungeon(props) {
-  const [rooms2d, setRooms] = useState(props.data.rooms);
-  const [playerPosition, setPlayerPosition] = useState({ x: 0, y: 0 });
+export default function Dungeon({ data }) {
+  const rooms2d = data.rooms;
+  const floorSize = data.floorSize;
+  const set = data.set;
+  const type = data.type;
 
-  const floorSize = props.data.floorSize;
-  const set = props.data.set;
-  const type = props.data.type;
+  const playerPosition = getRoomPosition(1, 1, 1, 1, 32);
 
   return (
     <ReactNativeZoomableView
       contentWidth={4000}
       contentHeight={4000}
-      maxZoom={1.2}
+      maxZoom={1.6}
       minZoom={0.8}
       style={styles.zoomView}
     >
       <View style={styles.container}>
         {rooms2d.map((rooms) =>
           rooms.map(({ floorX, floorY, portalType, uri }) => {
-            // calculate x, y with room offset (original, individual object position)
-            // let relativeX = tile.x + floorX * floorSize;
-            // let relativeY = tile.y + floorY * floorSize;
-
             // x, y for images (use room width for scale)
             const position = convertToIso(floorX, floorY, 256);
 
@@ -35,25 +32,35 @@ export default function Dungeon(props) {
                 key={`room (${floorX}, ${floorY})`}
                 position={position}
                 uri={uri}
-                onPress={(pos) => setPlayerPosition({ x: pos.x, y: pos.y })}
               />
             );
           })
         )}
+        <GameObject
+          position={playerPosition}
+          image={{
+            direction: "left_down",
+            name: "player",
+            set: "default",
+            type: "players",
+          }}
+        />
       </View>
     </ReactNativeZoomableView>
   );
 }
 
-// function convertToIso(x, y, ) {
-//   const TILE_WIDTH = 64;
-//   const TILE_HEIGHT = 64;
+function getRoomPosition(roomX, roomY, x, y, scaleInPixels) {
+  const offsetX = -2;
+  const offsetY = 5;
+  const floorSize = 8;
 
-//   return {
-//     x: x * 1 * 0.5 * TILE_WIDTH + y * -1 * 0.5 * TILE_WIDTH,
-//     y: x * 0.5 * 0.5 * TILE_HEIGHT + y * 0.5 * 0.5 * TILE_HEIGHT,
-//   };
-// }
+  // calculate x, y with room offset
+  const relativeX = x + roomX * floorSize - offsetX;
+  const relativeY = y + roomY * floorSize - offsetY;
+
+  return convertToIso(relativeX, relativeY, scaleInPixels);
+}
 
 function convertToIso(x, y, scaleInPixels) {
   // Only supports squares right now
@@ -76,7 +83,6 @@ const styles = StyleSheet.create({
   },
   player: {
     position: "absolute",
-    top: 10,
     zIndex: 100,
   },
 });
