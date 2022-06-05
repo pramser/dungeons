@@ -30,7 +30,7 @@ export default function Game() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: "#ccc",
+    backgroundColor: "#333",
   },
   floatingButton: {
     width: 60,

@@ -17,7 +17,7 @@ export default function Dungeon(props) {
       contentWidth={4000}
       contentHeight={4000}
       maxZoom={1.2}
-      minZoom={0.2}
+      minZoom={0.8}
       style={styles.zoomView}
     >
       <View style={styles.container}>
@@ -27,8 +27,8 @@ export default function Dungeon(props) {
             // let relativeX = tile.x + floorX * floorSize;
             // let relativeY = tile.y + floorY * floorSize;
 
-            // x, y for images
-            const position = convertToIso(floorX, floorY);
+            // x, y for images (use room width for scale)
+            const position = convertToIso(floorX, floorY, 256);
 
             return (
               <Room
@@ -55,13 +55,14 @@ export default function Dungeon(props) {
 //   };
 // }
 
-function convertToIso(x, y) {
-  const ROOM_WIDTH = 256;
-  const ROOM_HEIGHT = 256;
+function convertToIso(x, y, scaleInPixels) {
+  // Only supports squares right now
+  const WIDTH = scaleInPixels;
+  const HEIGHT = WIDTH;
 
   return {
-    x: x * 1 * 0.5 * ROOM_WIDTH + y * -1 * 0.5 * ROOM_WIDTH,
-    y: x * 0.5 * 0.5 * ROOM_HEIGHT + y * 0.5 * 0.5 * ROOM_HEIGHT,
+    x: x * 1 * 0.5 * WIDTH + y * -1 * 0.5 * WIDTH,
+    y: x * 0.5 * 0.5 * HEIGHT + y * 0.5 * 0.5 * HEIGHT,
   };
 }
 
