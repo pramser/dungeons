@@ -2,8 +2,7 @@ import { useState } from "react";
 import { StyleSheet, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 
-import Tile from "./Tile";
-import GameObject from "./GameObject";
+import Room from "./Room";
 
 export default function Dungeon(props) {
   const [rooms2d, setRooms] = useState(props.data.rooms);
@@ -23,47 +22,46 @@ export default function Dungeon(props) {
     >
       <View style={styles.container}>
         {rooms2d.map((rooms) =>
-          rooms.map(({ floorX, floorY, portalType, tiles }) =>
-            tiles.map((tile) => {
-              // calculate x, y with room offset
-              let relativeX = tile.x + floorX * floorSize;
-              let relativeY = tile.y + floorY * floorSize;
+          rooms.map(({ floorX, floorY, portalType, uri }) => {
+            // calculate x, y with room offset (original, individual object position)
+            // let relativeX = tile.x + floorX * floorSize;
+            // let relativeY = tile.y + floorY * floorSize;
 
-              // x, y for images
-              const position = convertToIso(relativeX, relativeY);
+            // x, y for images
+            const position = convertToIso(floorX, floorY);
 
-              return (
-                <Tile
-                  key={`tile (${relativeX}, ${relativeY})`}
-                  position={position}
-                  image={{ name: tile.name, set, type }}
-                  onPress={(pos) => setPlayerPosition({ x: pos.x, y: pos.y })}
-                />
-              );
-            })
-          )
+            return (
+              <Room
+                key={`room (${floorX}, ${floorY})`}
+                position={position}
+                uri={uri}
+                onPress={(pos) => setPlayerPosition({ x: pos.x, y: pos.y })}
+              />
+            );
+          })
         )}
-        <GameObject
-          position={playerPosition}
-          image={{
-            direction: "left_down",
-            name: "player",
-            set: "default",
-            type: "players",
-          }}
-        />
       </View>
     </ReactNativeZoomableView>
   );
 }
 
+// function convertToIso(x, y, ) {
+//   const TILE_WIDTH = 64;
+//   const TILE_HEIGHT = 64;
+
+//   return {
+//     x: x * 1 * 0.5 * TILE_WIDTH + y * -1 * 0.5 * TILE_WIDTH,
+//     y: x * 0.5 * 0.5 * TILE_HEIGHT + y * 0.5 * 0.5 * TILE_HEIGHT,
+//   };
+// }
+
 function convertToIso(x, y) {
-  const TILE_WIDTH = 64;
-  const TILE_HEIGHT = 64;
+  const ROOM_WIDTH = 256;
+  const ROOM_HEIGHT = 256;
 
   return {
-    x: x * 1 * 0.5 * TILE_WIDTH + y * -1 * 0.5 * TILE_WIDTH,
-    y: x * 0.5 * 0.5 * TILE_HEIGHT + y * 0.5 * 0.5 * TILE_HEIGHT,
+    x: x * 1 * 0.5 * ROOM_WIDTH + y * -1 * 0.5 * ROOM_WIDTH,
+    y: x * 0.5 * 0.5 * ROOM_HEIGHT + y * 0.5 * 0.5 * ROOM_HEIGHT,
   };
 }
 

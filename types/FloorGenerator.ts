@@ -41,7 +41,7 @@ export default class FloorGenerator {
         if (crit === undefined) {
           const empRoom = new Room(x, y, 0);
           const empTemplate = RoomTemplates.find(0);
-          empRoom.loadTiles(empTemplate.tiles);
+          empRoom.loadUri(empTemplate.uri);
 
           // empty room tile
           this.rooms[y][x] = empRoom;
@@ -51,7 +51,7 @@ export default class FloorGenerator {
         // Horizontal crawl
         let room = new Room(x, y, crit.layout);
         let template = RoomTemplates.find(crit.layout);
-        room.loadTiles(template.tiles);
+        room.loadUri(template.uri);
 
         // set room's portal status (entrance, exit)
         room.portalType = crit.portal as PortalType;
