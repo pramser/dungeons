@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { createRef } from "react";
 import { StyleSheet, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 
@@ -12,6 +12,7 @@ export default function Dungeon({ data }) {
   const type = data.type;
 
   const playerPosition = getRoomPosition(1, 1, 1, 1, 32);
+  const zoomableViewRef = createRef();
 
   return (
     <ReactNativeZoomableView
@@ -19,6 +20,7 @@ export default function Dungeon({ data }) {
       contentHeight={4000}
       maxZoom={1.6}
       minZoom={0.8}
+      ref={zoomableViewRef}
       style={styles.zoomView}
     >
       <View style={styles.container}>
@@ -30,6 +32,9 @@ export default function Dungeon({ data }) {
             return (
               <Room
                 key={`room (${floorX}, ${floorY})`}
+                onPress={(rp) =>
+                  zoomableViewRef.current.moveTo(rp.x + 297, rp.y + 400)
+                }
                 position={position}
                 uri={uri}
               />
@@ -76,9 +81,9 @@ function convertToIso(x, y, scaleInPixels) {
 const styles = StyleSheet.create({
   zoomView: {
     flex: 1,
+    position: "absolute",
   },
   container: {
-    top: 10,
     position: "absolute",
   },
   player: {
