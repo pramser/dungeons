@@ -111,8 +111,8 @@ export default class FloorGenerator {
         } else {
           // if we hit a wall, go down and right
           if (currentY < FLOOR_BOUNDS) {
-            addToRoute(currentX, currentY, RoomLayout.exitFloor);
-            addToRoute(currentX, ++currentY, RoomLayout.entranceCeiling);
+            addToRoute(currentX, currentY, RoomLayout.exitBottom);
+            addToRoute(currentX, ++currentY, RoomLayout.entranceTop);
             newDirection = RoomDirection.right;
           } else {
             // no moves; exit out of loop
@@ -127,8 +127,8 @@ export default class FloorGenerator {
         } else {
           // if we hit a wall, go down and right
           if (currentY < FLOOR_BOUNDS) {
-            addToRoute(currentX, currentY, RoomLayout.exitFloor);
-            addToRoute(currentX, ++currentY, RoomLayout.entranceCeiling);
+            addToRoute(currentX, currentY, RoomLayout.exitBottom);
+            addToRoute(currentX, ++currentY, RoomLayout.entranceTop);
             newDirection = RoomDirection.left;
           } else {
             // no moves; exit out of loop
@@ -137,8 +137,8 @@ export default class FloorGenerator {
         }
       } else if (newDirection == RoomDirection.down) {
         if (currentY < FLOOR_BOUNDS) {
-          addToRoute(currentX, currentY, RoomLayout.exitFloor);
-          addToRoute(currentX, ++currentY, RoomLayout.entranceCeiling);
+          addToRoute(currentX, currentY, RoomLayout.exitBottom);
+          addToRoute(currentX, ++currentY, RoomLayout.entranceTop);
           newDirection = 0;
 
           if (currentX === FLOOR_BOUNDS) {

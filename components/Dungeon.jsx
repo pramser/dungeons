@@ -47,7 +47,7 @@ export default function Dungeon(props) {
           position={playerPosition}
           image={{
             direction: "left_down",
-            name: "ramza",
+            name: "player",
             set: "default",
             type: "players",
           }}

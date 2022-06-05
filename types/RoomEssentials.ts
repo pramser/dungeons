@@ -25,8 +25,8 @@ export class Tile implements TileInterface {
 export enum RoomLayout {
   isolated = 0,
   leftRight = 1,
-  exitFloor = 2,
-  entranceCeiling = 3,
+  exitBottom = 2,
+  entranceTop = 3,
 }
 
 export enum PortalType {
@@ -217,7 +217,7 @@ export class RoomTemplates {
       new Tile("ground", 7, 6),
       new Tile("ground", 7, 7),
     ]),
-    new RoomTemplate(RoomLayout.entranceCeiling, [
+    new RoomTemplate(RoomLayout.entranceTop, [
       new Tile("ground", 0, 0),
       new Tile("ground", 0, 1),
       new Tile("ground", 0, 2),
@@ -283,7 +283,7 @@ export class RoomTemplates {
       new Tile("ground", 7, 6),
       new Tile("ground", 7, 7),
     ]),
-    new RoomTemplate(RoomLayout.exitFloor, [
+    new RoomTemplate(RoomLayout.exitBottom, [
       new Tile("ground", 0, 0),
       new Tile("ground", 0, 1),
       new Tile("ground", 0, 2),
