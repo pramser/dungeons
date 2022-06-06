@@ -5,6 +5,7 @@ import { ui } from "../assets";
 export default function GameObject(props) {
   const { x, y } = props.position;
   const { name, set, type } = props.image;
+  const isHidden = props.isHidden;
 
   const [isTouched, setIsTouched] = useState(false);
 
@@ -14,6 +15,10 @@ export default function GameObject(props) {
     top: y + 14,
     zIndex: 150,
   };
+
+  if (isHidden) {
+    return null;
+  }
 
   return (
     <TouchableOpacity

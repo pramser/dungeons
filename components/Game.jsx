@@ -1,4 +1,4 @@
-import { createRef } from "react";
+import { createRef, useState } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 
@@ -10,6 +10,8 @@ import { FloorSize, RoomSize } from "../types/FloorGenerator";
 import GameManager from "../types/GameManager";
 
 export default function Game() {
+  const [isPlayerMoving, setIsPlayerMoving] = useState(0);
+
   let gameManager = new GameManager(
     FloorSize.small,
     RoomSize.normal,
@@ -60,12 +62,16 @@ export default function Game() {
               set,
             }}
           />
-          <GameObject position={tPos} image={{ name: "", set: "", type: "" }} />
+          <GameObject
+            position={tPos}
+            image={{ name: "", set: "", type: "" }}
+            isHidden={!isPlayerMoving}
+          />
         </View>
       </ReactNativeZoomableView>
       <TouchableOpacity
         style={styles.floatingButton}
-        onPress={() => console.log("hello, world")}
+        onPress={() => setIsPlayerMoving(!isPlayerMoving)}
       >
         <Text style={styles.floatingButtonText}>+</Text>
       </TouchableOpacity>
