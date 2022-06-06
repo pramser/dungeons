@@ -21,21 +21,19 @@ enum RoomDirection {
 }
 
 export default class FloorGenerator {
-  readonly floorSize: FloorSize;
-  readonly rooms: Room[][] = [];
+  generate(floorSize: FloorSize) {
+    const route = this.createRoute(floorSize);
 
-  constructor(floorSize: FloorSize) {
-    this.floorSize = floorSize;
-  }
+    // Room data to return
+    let rooms: Room[][] = [];
+    let entranceRoom = { x: 0, y: 0 };
+    let exitRoom = { x: 0, y: 0 };
 
-  generate() {
-    const route = this.createRoute(this.floorSize);
-
-    for (let y = 0; y < this.floorSize; y++) {
+    for (let y = 0; y < floorSize; y++) {
       // Vertical crawl
-      this.rooms[y] = [];
+      rooms[y] = [];
 
-      for (let x = 0; x < this.floorSize; x++) {
+      for (let x = 0; x < floorSize; x++) {
         let crit = route.find((p) => p.x === x && p.y === y);
 
         if (crit === undefined) {
@@ -44,7 +42,7 @@ export default class FloorGenerator {
           empRoom.loadUri(empTemplate.uri);
 
           // empty room tile
-          this.rooms[y][x] = empRoom;
+          rooms[y][x] = empRoom;
           continue;
         }
 
@@ -56,12 +54,23 @@ export default class FloorGenerator {
         // set room's portal status (entrance, exit)
         room.portalType = crit.portal as PortalType;
 
+        // set entrance or exit
+        if (crit.portal === PortalType.entrance) {
+          entranceRoom = { x, y };
+        } else if (crit.portal === PortalType.exit) {
+          exitRoom = { x, y };
+        }
+
         // valid, crit tile
-        this.rooms[y][x] = room;
+        rooms[y][x] = room;
       }
     }
 
-    return this.rooms;
+    return {
+      entranceRoom,
+      exitRoom,
+      rooms,
+    };
   }
 
   createRoute(floorSize: FloorSize) {
@@ -72,7 +81,7 @@ export default class FloorGenerator {
     let currentY = 0;
 
     // pick a random x room
-    let currentX = Math.floor(Math.random() * this.floorSize);
+    let currentX = Math.floor(Math.random() * floorSize);
 
     // current orientation
     let newDirection = 0;

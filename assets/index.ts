@@ -1,32 +1,3 @@
-export const tiles = {
-  default: {
-    desert: {
-      ground: {
-        uri: require("./default/tiles/desert/ground.png"),
-      },
-      highlight: {
-        uri: require("./default/tiles/desert/highlight.png"),
-      },
-    },
-    dungeon: {
-      ground: {
-        uri: require("./default/tiles/dungeon/ground.png"),
-      },
-      highlight: {
-        uri: require("./default/tiles/dungeon/highlight.png"),
-      },
-    },
-    plains: {
-      ground: {
-        uri: require("./default/tiles/plains/ground.png"),
-      },
-      highlight: {
-        uri: require("./default/tiles/plains/highlight.png"),
-      },
-    },
-  },
-};
-
 export const rooms = {
   default: {
     isolated: {
@@ -44,14 +15,23 @@ export const rooms = {
   },
 };
 
-export const objects = {
+export const people = {
   default: {
-    players: {
-      player: {
-        left_down: {
-          uri: require("./default/objects/players/player/left_down.png"),
-        },
+    player: {
+      left_down: {
+        uri: require("./default/people/player/left_down.png"),
       },
+    },
+  },
+};
+
+export const ui = {
+  default: {
+    highlighted: {
+      uri: require("./default/ui/highlighted.png"),
+    },
+    selected: {
+      uri: require("./default/ui/selected.png"),
     },
   },
 };

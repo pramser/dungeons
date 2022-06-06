@@ -2,6 +2,8 @@ import FloorGenerator from "./FloorGenerator";
 import { Room } from "./RoomEssentials";
 
 export class GameData {
+  entranceRoom: any = {};
+  exitRoom: any = {};
   floorSize: number = 0;
   player: any;
   rooms: Room[][] = [];
@@ -30,13 +32,15 @@ export default class GameManager {
   }
 
   createGame(): GameData {
-    let floorGenerator = new FloorGenerator(this.floorSize);
-    let rooms = floorGenerator.generate();
+    let floorGenerator = new FloorGenerator();
+    let floorData = floorGenerator.generate(this.floorSize);
 
     return {
+      entranceRoom: floorData.entranceRoom,
+      exitRoom: floorData.exitRoom,
       floorSize: this.floorSize,
       player: {},
-      rooms: rooms,
+      rooms: floorData.rooms,
       roomSize: this.roomSize,
       set: this.set,
       type: this.type,

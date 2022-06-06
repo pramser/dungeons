@@ -4,28 +4,32 @@ import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/s
 
 import Room from "./Room";
 import GameObject from "./GameObject";
+import Player from "./Player";
 
 export default function Dungeon({ data }) {
-  const rooms2d = data.rooms;
+  const entRoom = data.entranceRoom;
+  const exitRoom = data.exitRoom;
   const floorSize = data.floorSize;
+  const rooms2d = data.rooms;
   const set = data.set;
   const type = data.type;
 
-  const playerPosition = getRoomPosition(1, 1, 2, 1, 32);
+  const playerPosition = getRoomPosition(entRoom.x, entRoom.y, 3, 1, 32);
+  const tilePosition = getRoomPosition(entRoom.x, entRoom.y, 3, 2, 32);
   const zoomableViewRef = createRef();
 
   return (
     <ReactNativeZoomableView
       contentWidth={4000}
       contentHeight={4000}
-      maxZoom={1.6}
-      minZoom={0.8}
+      maxZoom={2}
+      minZoom={1}
       ref={zoomableViewRef}
       style={styles.zoomView}
     >
       <View style={styles.container}>
         {rooms2d.map((rooms) =>
-          rooms.map(({ floorX, floorY, portalType, uri }) => {
+          rooms.map(({ floorX, floorY, uri }) => {
             // x, y for images (use room width for scale)
             const position = convertToIso(floorX, floorY, 256);
 
@@ -33,7 +37,7 @@ export default function Dungeon({ data }) {
               <Room
                 key={`room (${floorX}, ${floorY})`}
                 onPress={(rp) =>
-                  zoomableViewRef.current.moveTo(rp.x + 297, rp.y + 400)
+                  zoomableViewRef.current.moveTo(rp.x + 320, rp.y + 350)
                 }
                 position={position}
                 uri={uri}
@@ -41,14 +45,17 @@ export default function Dungeon({ data }) {
             );
           })
         )}
-        <GameObject
+        <Player
           position={playerPosition}
           image={{
             direction: "left_down",
             name: "player",
             set: "default",
-            type: "players",
           }}
+        />
+        <GameObject
+          position={tilePosition}
+          image={{ name: "", set: "", type: "" }}
         />
       </View>
     </ReactNativeZoomableView>
