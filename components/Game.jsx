@@ -3,26 +3,26 @@ import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 
 import Room from "./Room";
-import GameObject from "./GameObject";
 import Player from "./Player";
 
 import { FloorSize, RoomSize } from "../types/FloorGenerator";
 import GameManager from "../types/GameManager";
+import MovementTiles from "./MovementTiles";
+
+let gameManager = new GameManager(
+  FloorSize.small,
+  RoomSize.normal,
+  "default",
+  "dungeon"
+);
+
+let { entRoom, rooms2d, set } = gameManager.createGame();
 
 export default function Game() {
   const [isPlayerMoving, setIsPlayerMoving] = useState(0);
-
-  let gameManager = new GameManager(
-    FloorSize.small,
-    RoomSize.normal,
-    "default",
-    "dungeon"
+  const [pPos, setPlayerPos] = useState(
+    getRoomPos(entRoom.x, entRoom.y, 3, 1, 32)
   );
-
-  let { entRoom, rooms2d, set } = gameManager.createGame();
-
-  const pPos = getRoomPosition(entRoom.x, entRoom.y, 3, 1, 32);
-  const tPos = getRoomPosition(entRoom.x, entRoom.y, 3, 2, 32);
   const zoomableViewRef = createRef();
 
   return (
@@ -54,6 +54,12 @@ export default function Game() {
               );
             })
           )}
+          <MovementTiles
+            position={pPos}
+            amount={2}
+            isHidden={!isPlayerMoving}
+            onPress={(pos) => setPlayerPos(pos)}
+          />
           <Player
             position={pPos}
             image={{
@@ -61,11 +67,6 @@ export default function Game() {
               name: "player",
               set,
             }}
-          />
-          <GameObject
-            position={tPos}
-            image={{ name: "", set: "", type: "" }}
-            isHidden={!isPlayerMoving}
           />
         </View>
       </ReactNativeZoomableView>
@@ -79,7 +80,7 @@ export default function Game() {
   );
 }
 
-function getRoomPosition(roomX, roomY, x, y, scaleInPixels) {
+function getRoomPos(roomX, roomY, x, y, scaleInPixels) {
   const offsetX = -2;
   const offsetY = 5;
   const floorSize = 8;

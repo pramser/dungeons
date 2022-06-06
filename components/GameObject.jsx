@@ -1,19 +1,17 @@
 import { useState } from "react";
 import { Image, TouchableOpacity } from "react-native";
-import { ui } from "../assets";
 
 export default function GameObject(props) {
   const { x, y } = props.position;
-  const { name, set, type } = props.image;
+  const imageUri = props.imageUri;
   const isHidden = props.isHidden;
-
-  const [isTouched, setIsTouched] = useState(false);
+  const onPress = props.onPress;
 
   const style = {
     position: "absolute",
     left: x,
     top: y + 14,
-    zIndex: 150,
+    zIndex: 50,
   };
 
   if (isHidden) {
@@ -23,13 +21,9 @@ export default function GameObject(props) {
   return (
     <TouchableOpacity
       key={`touch (${x}, ${y})`}
-      onPress={() => setIsTouched(!isTouched)}
+      onPress={() => onPress({ x, y })}
     >
-      <Image
-        key={`object (${x}, ${y})`}
-        source={ui.default[isTouched ? "selected" : "highlighted"].uri}
-        style={style}
-      />
+      <Image key={`object (${x}, ${y})`} source={imageUri} style={style} />
     </TouchableOpacity>
   );
 }
