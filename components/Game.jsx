@@ -1,6 +1,11 @@
+import { createRef } from "react";
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
 
-import Dungeon from "./Dungeon";
+import Room from "./Room";
+import GameObject from "./GameObject";
+import Player from "./Player";
+
 import { FloorSize, RoomSize } from "../types/FloorGenerator";
 import GameManager from "../types/GameManager";
 
@@ -12,11 +17,52 @@ export default function Game() {
     "dungeon"
   );
 
-  var data = gameManager.createGame();
+  let { entRoom, rooms2d, set } = gameManager.createGame();
+
+  const pPos = getRoomPosition(entRoom.x, entRoom.y, 3, 1, 32);
+  const tPos = getRoomPosition(entRoom.x, entRoom.y, 3, 2, 32);
+  const zoomableViewRef = createRef();
 
   return (
-    <View style={styles.container}>
-      <Dungeon data={data} />
+    <View style={styles.game}>
+      <ReactNativeZoomableView
+        contentWidth={4000}
+        contentHeight={4000}
+        initialZoom={1}
+        maxZoom={2}
+        minZoom={1}
+        ref={zoomableViewRef}
+        style={styles.zoomView}
+      >
+        <View style={styles.dungeon}>
+          {rooms2d.map((rooms) =>
+            rooms.map(({ floorX, floorY, uri }) => {
+              // x, y for images (use room width for scale)
+              const position = convertToIso(floorX, floorY, 256);
+
+              return (
+                <Room
+                  key={`room (${floorX}, ${floorY})`}
+                  onPress={(rp) =>
+                    zoomableViewRef.current.moveTo(rp.x + 320, rp.y + 350)
+                  }
+                  position={position}
+                  uri={uri}
+                />
+              );
+            })
+          )}
+          <Player
+            position={pPos}
+            image={{
+              direction: "ld",
+              name: "player",
+              set,
+            }}
+          />
+          <GameObject position={tPos} image={{ name: "", set: "", type: "" }} />
+        </View>
+      </ReactNativeZoomableView>
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => console.log("hello, world")}
@@ -27,10 +73,32 @@ export default function Game() {
   );
 }
 
+function getRoomPosition(roomX, roomY, x, y, scaleInPixels) {
+  const offsetX = -2;
+  const offsetY = 5;
+  const floorSize = 8;
+
+  // calculate x, y with room offset
+  const relativeX = x + roomX * floorSize - offsetX;
+  const relativeY = y + roomY * floorSize - offsetY;
+
+  return convertToIso(relativeX, relativeY, scaleInPixels);
+}
+
+function convertToIso(x, y, scaleInPixels) {
+  // Only supports squares right now
+  const WIDTH = scaleInPixels;
+  const HEIGHT = WIDTH;
+
+  return {
+    x: x * 1 * 0.5 * WIDTH + y * -1 * 0.5 * WIDTH,
+    y: x * 0.5 * 0.5 * HEIGHT + y * 0.5 * 0.5 * HEIGHT,
+  };
+}
+
 const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: "#333",
+  dungeon: {
+    position: "absolute",
   },
   floatingButton: {
     width: 60,
@@ -47,5 +115,13 @@ const styles = StyleSheet.create({
     marginTop: -5,
     fontSize: 40,
     color: "white",
+  },
+  game: {
+    flex: 1,
+    backgroundColor: "#333",
+  },
+  zoomView: {
+    flex: 1,
+    position: "absolute",
   },
 });

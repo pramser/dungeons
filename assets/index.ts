@@ -18,7 +18,7 @@ export const rooms = {
 export const people = {
   default: {
     player: {
-      left_down: {
+      ld: {
         uri: require("./default/people/player/left_down.png"),
       },
     },
