@@ -11,7 +11,7 @@ export default function Dungeon({ data }) {
   const set = data.set;
   const type = data.type;
 
-  const playerPosition = getRoomPosition(1, 1, 1, 1, 32);
+  const playerPosition = getRoomPosition(1, 1, 2, 1, 32);
   const zoomableViewRef = createRef();
 
   return (
@@ -85,9 +85,5 @@ const styles = StyleSheet.create({
   },
   container: {
     position: "absolute",
-  },
-  player: {
-    position: "absolute",
-    zIndex: 100,
   },
 });
