@@ -57,7 +57,7 @@ export default function Game() {
             isHidden={!isPlayerMoving}
             onPress={(pos) => setPlayerPos(pos)}
           />
-          <Player position={pPos} image={{ name: "player", set }} />
+          <Player position={pPos} name="player" />
         </View>
       </ReactNativeZoomableView>
       <Text style={styles.turns}>{players[currentTurn].charName}</Text>

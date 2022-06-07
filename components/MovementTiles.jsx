@@ -1,6 +1,5 @@
 import GameObject from "./GameObject";
 import { ui } from "../assets";
-import Math from "../types/Math";
 
 export default function MovementTiles({ amount, isHidden, position, onPress }) {
   // tile props

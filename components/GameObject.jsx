@@ -1,7 +1,14 @@
 import { Image, TouchableOpacity } from "react-native";
 import Math from "../types/Math";
 
-export default function GameObject({ imageUri, isHidden, onPress, position }) {
+export default function GameObject({
+  imageUri,
+  isHidden,
+  onPress,
+  position,
+  xOffset,
+  yOffset,
+}) {
   let { x, y } = Math.getRoomPos(
     position.x,
     position.y,
@@ -10,10 +17,18 @@ export default function GameObject({ imageUri, isHidden, onPress, position }) {
     32
   );
 
+  if (!xOffset) {
+    xOffset = 0;
+  }
+
+  if (!yOffset) {
+    yOffset = 14;
+  }
+
   const style = {
     position: "absolute",
-    left: x,
-    top: y + 14,
+    left: x + xOffset,
+    top: y + yOffset,
     zIndex: 50,
   };
 
@@ -21,12 +36,11 @@ export default function GameObject({ imageUri, isHidden, onPress, position }) {
     return null;
   }
 
-  return (
-    <TouchableOpacity
-      key={`touch (${x}, ${y})`}
-      onPress={() => onPress(position)}
-    >
-      <Image key={`object (${x}, ${y})`} source={imageUri} style={style} />
+  return onPress ? (
+    <TouchableOpacity onPress={() => onPress(position)}>
+      <Image source={imageUri} style={style} />
     </TouchableOpacity>
+  ) : (
+    <Image source={imageUri} style={style} />
   );
 }
