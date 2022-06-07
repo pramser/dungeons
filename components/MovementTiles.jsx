@@ -2,39 +2,30 @@ import GameObject from "./GameObject";
 import { ui } from "../assets";
 import Math from "../types/Math";
 
-export default function MovementTiles(props) {
+export default function MovementTiles({ amount, isHidden, position, onPress }) {
   // tile props
-  let { amount, isHidden, position, onPress } = props;
-  let { x, y } = Math.getRoomPos(
-    position.x,
-    position.y,
-    position.roomX,
-    position.roomY,
-    32
-  );
-
   let tiles = [];
 
   // amount of tiles
   for (let t = 0; t < amount; t++) {
     tiles.push([
       <MovementTile
-        position={{ x: x + 16 * (t + 1), y: y - 8 * (t + 1) }}
+        position={{ ...position, x: position.x + 1 }}
         isHidden={isHidden}
         onPress={onPress}
       />,
       <MovementTile
-        position={{ x: x + 16 * (t + 1), y: y + 8 * (t + 1) }}
+        position={{ ...position, x: position.x - 1 }}
         isHidden={isHidden}
         onPress={onPress}
       />,
       <MovementTile
-        position={{ x: x - 16 * (t + 1), y: y + 8 * (t + 1) }}
+        position={{ ...position, y: position.y + 1 }}
         isHidden={isHidden}
         onPress={onPress}
       />,
       <MovementTile
-        position={{ x: x - 16 * (t + 1), y: y - 8 * (t + 1) }}
+        position={{ ...position, y: position.y - 1 }}
         isHidden={isHidden}
         onPress={onPress}
       />,
@@ -44,9 +35,7 @@ export default function MovementTiles(props) {
   return tiles;
 }
 
-export function MovementTile(props) {
-  let { position, isHidden, onPress } = props;
-
+export function MovementTile({ position, isHidden, onPress }) {
   return (
     <GameObject
       position={position}
