@@ -5,7 +5,7 @@ import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/s
 import Room from "./Room";
 import Player from "./Player";
 
-import { FloorSize, RoomSize } from "../types/FloorGenerator";
+import { FloorSize, RoomSize } from "../types/DungeonEssentials";
 import GameManager from "../types/GameManager";
 import MovementTiles from "./MovementTiles";
 

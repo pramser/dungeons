@@ -1,18 +1,10 @@
-import { PortalType, Room, RoomLayout, RoomTemplates } from "./RoomEssentials";
-
-export enum FloorSize {
-  tiny = 4,
-  small = 8,
-  standard = 16,
-  large = 24,
-}
-
-export enum RoomSize {
-  tiny = 2,
-  small = 4,
-  normal = 8,
-  large = 16,
-}
+import {
+  FloorSize,
+  PortalType,
+  Room,
+  RoomLayout,
+  RoomTemplates,
+} from "./DungeonEssentials";
 
 enum RoomDirection {
   left = 1,
@@ -20,7 +12,7 @@ enum RoomDirection {
   down = 3,
 }
 
-export default class FloorGenerator {
+export default class DungeonGenerator {
   generate(floorSize: FloorSize) {
     const route = this.createRoute(floorSize);
 

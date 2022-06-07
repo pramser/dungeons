@@ -1,5 +1,32 @@
 import { rooms } from "../assets";
 
+export enum FloorSize {
+  tiny = 4,
+  small = 8,
+  standard = 16,
+  large = 24,
+}
+
+export enum PortalType {
+  none = 0,
+  entrance = 1,
+  exit = 2,
+}
+
+export enum RoomLayout {
+  isolated = 0,
+  leftRight = 1,
+  exitBottom = 2,
+  entranceTop = 3,
+}
+
+export enum RoomSize {
+  tiny = 2,
+  small = 4,
+  normal = 8,
+  large = 16,
+}
+
 export interface TileInterface {
   readonly name: string;
   readonly x: number;
@@ -22,19 +49,6 @@ export class Tile implements TileInterface {
   getId(): string {
     return `${this.name}-${this.x}-${this.y}`;
   }
-}
-
-export enum RoomLayout {
-  isolated = 0,
-  leftRight = 1,
-  exitBottom = 2,
-  entranceTop = 3,
-}
-
-export enum PortalType {
-  none = 0,
-  entrance = 1,
-  exit = 2,
 }
 
 export class Room {

@@ -1,5 +1,5 @@
-import FloorGenerator from "./FloorGenerator";
-import { Room } from "./RoomEssentials";
+import DungeonGenerator from "./DungeonGenerator";
+import { Room } from "./DungeonEssentials";
 
 export class GameData {
   entRoom: any = {};
@@ -32,8 +32,8 @@ export default class GameManager {
   }
 
   createGame(): GameData {
-    let floorGenerator = new FloorGenerator();
-    let floorData = floorGenerator.generate(this.floorSize);
+    let dungeonGenerator = new DungeonGenerator();
+    let floorData = dungeonGenerator.generate(this.floorSize);
 
     return {
       entRoom: floorData.entranceRoom,
