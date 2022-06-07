@@ -1,4 +1,5 @@
 import { rooms } from "../assets";
+import Math from "./Math";
 
 export enum FloorSize {
   tiny = 4,
@@ -27,55 +28,35 @@ export enum RoomSize {
   large = 16,
 }
 
-export interface TileInterface {
-  readonly name: string;
-  readonly x: number;
-  readonly y: number;
-
-  getId(): string;
-}
-
-export class Tile implements TileInterface {
-  readonly name: string;
-  readonly x: number;
-  readonly y: number;
-
-  constructor(name: string, x: number, y: number) {
-    this.name = name;
-    this.x = x;
-    this.y = y;
-  }
-
-  getId(): string {
-    return `${this.name}-${this.x}-${this.y}`;
-  }
-}
-
 export class Room {
-  readonly floorX: number;
-  readonly floorY: number;
+  readonly x: number;
+  readonly y: number;
   readonly layout: RoomLayout;
 
   portalType: PortalType = 0;
 
   uri: any = null;
 
-  constructor(floorX: number, floorY: number, layout: RoomLayout) {
-    this.floorX = floorX;
-    this.floorY = floorY;
+  constructor(x: number, y: number, layout: RoomLayout) {
+    this.x = x;
+    this.y = y;
     this.layout = layout;
   }
 
-  loadUri(uri: any): void {
-    this.uri = uri;
+  describe(): string {
+    return `room (${this.x}, ${this.y})`;
+  }
+
+  getAbsolutePosition() {
+    return Math.convertToIso(this.x, this.y, 256);
   }
 
   isPortal() {
     return this.portalType > 0;
   }
 
-  describe(): string {
-    return `x: ${this.floorX} y: ${this.floorY}`;
+  loadUri(uri: any): void {
+    this.uri = uri;
   }
 }
 

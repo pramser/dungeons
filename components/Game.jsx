@@ -4,10 +4,11 @@ import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/s
 
 import Room from "./Room";
 import Player from "./Player";
+import MovementTiles from "./MovementTiles";
 
 import { FloorSize, RoomSize } from "../types/DungeonEssentials";
 import GameManager from "../types/GameManager";
-import MovementTiles from "./MovementTiles";
+import Math from "../types/Math";
 
 let gameManager = new GameManager(
   FloorSize.small,
@@ -21,7 +22,7 @@ let { entRoom, rooms2d, set } = gameManager.createGame();
 export default function Game() {
   const [isPlayerMoving, setIsPlayerMoving] = useState(0);
   const [pPos, setPlayerPos] = useState(
-    getRoomPos(entRoom.x, entRoom.y, 3, 1, 32)
+    Math.getRoomPos(3, 1, entRoom.x, entRoom.y, 32)
   );
   const zoomableViewRef = createRef();
 
@@ -38,36 +39,29 @@ export default function Game() {
       >
         <View style={styles.dungeon}>
           {rooms2d.map((rooms) =>
-            rooms.map(({ floorX, floorY, uri }) => {
+            rooms.map((room) => {
               // x, y for images (use room width for scale)
-              const position = convertToIso(floorX, floorY, 256);
+              const rPos = room.getAbsolutePosition();
+              const onRoomPress = (rp) =>
+                zoomableViewRef.current.moveTo(rp.x + 320, rp.y + 350);
 
               return (
                 <Room
-                  key={`room (${floorX}, ${floorY})`}
-                  onPress={(rp) =>
-                    zoomableViewRef.current.moveTo(rp.x + 320, rp.y + 350)
-                  }
-                  position={position}
-                  uri={uri}
+                  key={room.describe()}
+                  onPress={onRoomPress}
+                  position={rPos}
+                  uri={room.uri}
                 />
               );
             })
           )}
           <MovementTiles
             position={pPos}
-            amount={2}
+            amount={1}
             isHidden={!isPlayerMoving}
             onPress={(pos) => setPlayerPos(pos)}
           />
-          <Player
-            position={pPos}
-            image={{
-              direction: "ld",
-              name: "player",
-              set,
-            }}
-          />
+          <Player position={pPos} image={{ name: "player", set }} />
         </View>
       </ReactNativeZoomableView>
       <TouchableOpacity
@@ -78,29 +72,6 @@ export default function Game() {
       </TouchableOpacity>
     </View>
   );
-}
-
-function getRoomPos(roomX, roomY, x, y, scaleInPixels) {
-  const offsetX = -2;
-  const offsetY = 5;
-  const floorSize = 8;
-
-  // calculate x, y with room offset
-  const relativeX = x + roomX * floorSize - offsetX;
-  const relativeY = y + roomY * floorSize - offsetY;
-
-  return convertToIso(relativeX, relativeY, scaleInPixels);
-}
-
-function convertToIso(x, y, scaleInPixels) {
-  // Only supports squares right now
-  const WIDTH = scaleInPixels;
-  const HEIGHT = WIDTH;
-
-  return {
-    x: x * 1 * 0.5 * WIDTH + y * -1 * 0.5 * WIDTH,
-    y: x * 0.5 * 0.5 * HEIGHT + y * 0.5 * 0.5 * HEIGHT,
-  };
 }
 
 const styles = StyleSheet.create({

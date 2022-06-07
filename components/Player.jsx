@@ -22,7 +22,7 @@ export default function Player(props) {
     >
       <Image
         key={`player (${x}, ${y})`}
-        source={people[set][name][direction].uri}
+        source={people[set][name]["ld"].uri}
         style={style}
       />
     </TouchableHighlight>
