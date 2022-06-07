@@ -1,30 +1,25 @@
-import { useState } from "react";
-import { Image, TouchableHighlight } from "react-native";
+import { Image } from "react-native";
 import { people } from "../assets";
+import Math from "../types/Math";
 
 export default function Player(props) {
-  const { x, y } = props.position;
-  const { direction, name, set } = props.image;
+  const { x, y, roomX, roomY } = props.position;
+  let relativePosition = Math.getRoomPos(x, y, roomX, roomY, 32);
 
-  const [isTouched, setIsTouched] = useState(false);
+  const { name, set } = props.image;
 
   const style = {
     position: "absolute",
-    left: x,
-    top: y - 6,
+    left: relativePosition.x,
+    top: relativePosition.y - 6,
     zIndex: 100,
   };
 
   return (
-    <TouchableHighlight
-      key={`touch (${x}, ${y})`}
-      onPress={() => setIsTouched(!isTouched)}
-    >
-      <Image
-        key={`player (${x}, ${y})`}
-        source={people[set][name]["ld"].uri}
-        style={style}
-      />
-    </TouchableHighlight>
+    <Image
+      key={`player (${x}, ${y})`}
+      source={people[set][name]["ld"].uri}
+      style={style}
+    />
   );
 }

@@ -1,17 +1,17 @@
 import { Image, TouchableOpacity } from "react-native";
 
-export default function Room({ onPress, position, uri }) {
-  const { x, y } = position;
+export default function Room({ onPress, room }) {
+  const rPos = room.getAbsolutePosition();
 
   const style = {
     position: "absolute",
-    left: x,
-    top: y,
+    left: rPos.x,
+    top: rPos.y,
   };
 
   return (
-    <TouchableOpacity onPress={() => onPress(position)}>
-      <Image key={`image (${x}, ${y})`} source={uri} style={style} />
+    <TouchableOpacity key={room.describe()} onPress={() => onPress(rPos)}>
+      <Image source={room.uri} style={style} />
     </TouchableOpacity>
   );
 }

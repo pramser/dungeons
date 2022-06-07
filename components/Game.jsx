@@ -8,7 +8,6 @@ import MovementTiles from "./MovementTiles";
 
 import { FloorSize, RoomSize } from "../types/DungeonEssentials";
 import GameManager from "../types/GameManager";
-import Math from "../types/Math";
 
 let gameManager = new GameManager(
   FloorSize.small,
@@ -22,9 +21,12 @@ let { entRoom, players, rooms2d, set } = gameManager.createGame();
 export default function Game() {
   const [currentTurn, setCurrentTurn] = useState(0);
   const [isPlayerMoving, setIsPlayerMoving] = useState(false);
-  const [pPos, setPlayerPos] = useState(
-    Math.getRoomPos(3, 1, entRoom.x, entRoom.y, 32)
-  );
+  const [pPos, setPlayerPos] = useState({
+    x: 3,
+    y: 1,
+    roomX: entRoom.x,
+    roomY: entRoom.y,
+  });
   const zoomableViewRef = createRef();
 
   return (
@@ -40,21 +42,14 @@ export default function Game() {
       >
         <View style={styles.dungeon}>
           {rooms2d.map((rooms) =>
-            rooms.map((room) => {
-              // x, y for images (use room width for scale)
-              const rPos = room.getAbsolutePosition();
-              const onRoomPress = (rp) =>
-                zoomableViewRef.current.moveTo(rp.x + 320, rp.y + 350);
-
-              return (
-                <Room
-                  key={room.describe()}
-                  onPress={onRoomPress}
-                  position={rPos}
-                  uri={room.uri}
-                />
-              );
-            })
+            rooms.map((room) => (
+              <Room
+                room={room}
+                onPress={(rp) =>
+                  zoomableViewRef.current.moveTo(rp.x + 320, rp.y + 350)
+                }
+              />
+            ))
           )}
           <MovementTiles
             position={pPos}

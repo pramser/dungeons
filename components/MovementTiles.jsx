@@ -1,10 +1,17 @@
 import GameObject from "./GameObject";
 import { ui } from "../assets";
+import Math from "../types/Math";
 
 export default function MovementTiles(props) {
   // tile props
   let { amount, isHidden, position, onPress } = props;
-  const { x, y } = position;
+  let { x, y } = Math.getRoomPos(
+    position.x,
+    position.y,
+    position.roomX,
+    position.roomY,
+    32
+  );
 
   let tiles = [];
 
