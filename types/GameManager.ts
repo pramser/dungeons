@@ -5,10 +5,11 @@ export class GameData {
   entRoom: any = {};
   exitRoom: any = {};
   floorSize: number = 0;
-  player: any;
+  players: any[] = [];
   rooms2d: Room[][] = [];
   roomSize: number = 0;
   set: string = "";
+  startingTurn: number = 0;
   type: string = "";
 }
 
@@ -39,10 +40,14 @@ export default class GameManager {
       entRoom: floorData.entranceRoom,
       exitRoom: floorData.exitRoom,
       floorSize: this.floorSize,
-      player: {},
+      players: [
+        { acctId: 1, playerId: 1, charName: "Patrick", dex: 5 },
+        { acctId: 2, playerId: 2, charName: "Jon", dex: 3 },
+      ],
       rooms2d: floorData.rooms,
       roomSize: this.roomSize,
       set: this.set,
+      startingTurn: 0,
       type: this.type,
     };
   }

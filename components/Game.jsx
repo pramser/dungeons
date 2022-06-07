@@ -17,10 +17,11 @@ let gameManager = new GameManager(
   "dungeon"
 );
 
-let { entRoom, rooms2d, set } = gameManager.createGame();
+let { entRoom, players, rooms2d, set } = gameManager.createGame();
 
 export default function Game() {
-  const [isPlayerMoving, setIsPlayerMoving] = useState(0);
+  const [currentTurn, setCurrentTurn] = useState(0);
+  const [isPlayerMoving, setIsPlayerMoving] = useState(false);
   const [pPos, setPlayerPos] = useState(
     Math.getRoomPos(3, 1, entRoom.x, entRoom.y, 32)
   );
@@ -64,6 +65,7 @@ export default function Game() {
           <Player position={pPos} image={{ name: "player", set }} />
         </View>
       </ReactNativeZoomableView>
+      <Text style={styles.turns}>{players[currentTurn].charName}</Text>
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => setIsPlayerMoving(!isPlayerMoving)}
@@ -97,6 +99,12 @@ const styles = StyleSheet.create({
   game: {
     flex: 1,
     backgroundColor: "#333",
+  },
+  turns: {
+    position: "absolute",
+    top: 10,
+    right: 10,
+    color: "white",
   },
   zoomView: {
     flex: 1,
