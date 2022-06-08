@@ -1,7 +1,12 @@
-import { people } from "../assets";
 import GameObject from "./GameObject";
+import { people } from "../assets";
 
-export default function Player({ name, position }) {
+interface PlayerProps {
+  name: string;
+  position: any;
+}
+
+export default function Player({ name, position }: PlayerProps) {
   return (
     <GameObject
       imageUri={people["default"][name]["ld"].uri}

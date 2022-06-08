@@ -1,7 +1,11 @@
 import { StatusBar } from "expo-status-bar";
 import { StyleSheet, Text, View, Button } from "react-native";
 
-export default function MainMenu({ navigation }) {
+interface MainMenuProps {
+  navigation: any;
+}
+
+export default function MainMenu({ navigation }: MainMenuProps) {
   return (
     <View style={styles.container}>
       <Text>dungeons v.0.0.1</Text>

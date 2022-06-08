@@ -1,7 +1,19 @@
 import GameObject from "./GameObject";
 import { ui } from "../assets";
 
-export default function MovementTiles({ amount, isHidden, position, onPress }) {
+interface MovementTilesProps {
+  amount: number;
+  isHidden?: boolean;
+  position: any;
+  onPress(position: any): void;
+}
+
+export default function MovementTiles({
+  amount,
+  isHidden,
+  position,
+  onPress,
+}: MovementTilesProps) {
   // tile props
   let tiles = [];
 
@@ -34,7 +46,17 @@ export default function MovementTiles({ amount, isHidden, position, onPress }) {
   return tiles;
 }
 
-export function MovementTile({ position, isHidden, onPress }) {
+interface MovementTileProps {
+  position: any;
+  isHidden?: boolean;
+  onPress(position: any): void;
+}
+
+export function MovementTile({
+  position,
+  isHidden,
+  onPress,
+}: MovementTileProps) {
   return (
     <GameObject
       position={position}

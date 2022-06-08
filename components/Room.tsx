@@ -1,13 +1,19 @@
-import { Image, TouchableOpacity } from "react-native";
+import { Image, ImageStyle, TouchableOpacity } from "react-native";
+import { Room as TRoom } from "../types/DungeonEssentials";
 
-export default function Room({ onPress, room }) {
+interface RoomProps {
+  onPress(position: any): void;
+  room: TRoom;
+}
+
+export default function Room({ onPress, room }: RoomProps) {
   const rPos = room.getAbsolutePosition();
 
   const style = {
     position: "absolute",
     left: rPos.x,
     top: rPos.y,
-  };
+  } as ImageStyle;
 
   return (
     <TouchableOpacity key={room.describe()} onPress={() => onPress(rPos)}>

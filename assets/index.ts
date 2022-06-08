@@ -1,4 +1,4 @@
-export const rooms = {
+export const rooms: any = {
   default: {
     isolated: {
       uri: require("./default/rooms/isolated.png"),
@@ -15,7 +15,7 @@ export const rooms = {
   },
 };
 
-export const people = {
+export const people: any = {
   default: {
     player: {
       ld: {
@@ -25,7 +25,7 @@ export const people = {
   },
 };
 
-export const ui = {
+export const ui: any = {
   default: {
     highlighted: {
       uri: require("./default/ui/highlighted.png"),

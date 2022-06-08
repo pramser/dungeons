@@ -1,5 +1,14 @@
-import { Image, TouchableOpacity } from "react-native";
+import { Image, ImageStyle, TouchableOpacity } from "react-native";
 import Math from "../types/Math";
+
+interface GameObjectProps {
+  imageUri: any;
+  isHidden?: boolean;
+  onPress?(position: any): void;
+  position: any;
+  xOffset?: number;
+  yOffset?: number;
+}
 
 export default function GameObject({
   imageUri,
@@ -8,7 +17,7 @@ export default function GameObject({
   position,
   xOffset,
   yOffset,
-}) {
+}: GameObjectProps) {
   let { x, y } = Math.getRoomPos(
     position.x,
     position.y,
@@ -30,7 +39,7 @@ export default function GameObject({
     left: x + xOffset,
     top: y + yOffset,
     zIndex: 50,
-  };
+  } as ImageStyle;
 
   if (isHidden) {
     return null;
