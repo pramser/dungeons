@@ -26,12 +26,18 @@ export const people: any = {
 };
 
 export const ui: any = {
-  default: {
-    highlighted: {
-      uri: require("./default/ui/highlighted.png"),
+  select: {
+    attack: {
+      uri: require("./select/attack.png"),
     },
-    selected: {
-      uri: require("./default/ui/selected.png"),
+    default: {
+      uri: require("./select/default.png"),
+    },
+    heal: {
+      uri: require("./select/heal.png"),
+    },
+    option: {
+      uri: require("./select/option.png"),
     },
   },
 };

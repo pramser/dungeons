@@ -4,7 +4,7 @@ import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/s
 
 import Room from "./Room";
 import Player from "./Player";
-import MovementTiles from "./MovementTiles";
+import SelectionTiles from "./SelectionTiles";
 
 import { FloorSize, RoomSize } from "../types/DungeonEssentials";
 import GameManager from "../types/GameManager";
@@ -51,11 +51,14 @@ export default function Game() {
               />
             ))
           )}
-          <MovementTiles
+          <SelectionTiles
             position={pPos}
             amount={1}
             isHidden={!isPlayerMoving}
-            onPress={(pos) => setPlayerPos(pos)}
+            onPress={(pos) => {
+              setPlayerPos(pos);
+              setIsPlayerMoving(false);
+            }}
           />
           <Player position={pPos} name="player" />
         </View>

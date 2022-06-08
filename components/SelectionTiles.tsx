@@ -3,41 +3,41 @@ import { ui } from "../assets";
 import { useEffect, useRef } from "react";
 import { Animated } from "react-native";
 
-interface MovementTilesProps {
+interface SelectionTilesProps {
   amount: number;
   isHidden?: boolean;
   position: any;
   onPress(position: any): void;
 }
 
-export default function MovementTiles({
+export default function SelectionTiles({
   amount,
   isHidden,
   position,
   onPress,
-}: MovementTilesProps): any {
+}: SelectionTilesProps): any {
   // tile props
   let tiles = [];
 
   // amount of tiles
   for (let t = 0; t < amount; t++) {
     tiles.push([
-      <MovementTile
+      <SelectionTile
         position={{ ...position, x: position.x + 1 }}
         isHidden={isHidden}
         onPress={onPress}
       />,
-      <MovementTile
+      <SelectionTile
         position={{ ...position, x: position.x - 1 }}
         isHidden={isHidden}
         onPress={onPress}
       />,
-      <MovementTile
+      <SelectionTile
         position={{ ...position, y: position.y + 1 }}
         isHidden={isHidden}
         onPress={onPress}
       />,
-      <MovementTile
+      <SelectionTile
         position={{ ...position, y: position.y - 1 }}
         isHidden={isHidden}
         onPress={onPress}
@@ -48,21 +48,27 @@ export default function MovementTiles({
   return tiles;
 }
 
-interface MovementTileProps {
+interface SelectionTileProps {
   position: any;
   isHidden?: boolean;
+  mode?: string;
   onPress(position: any): void;
 }
 
-export function MovementTile({
+export function SelectionTile({
   position,
   isHidden,
+  mode,
   onPress,
-}: MovementTileProps) {
+}: SelectionTileProps) {
   let fadeAnim = new Animated.Value(1);
 
   if (isHidden) {
     return null;
+  }
+
+  if (!mode) {
+    mode = "option";
   }
 
   useEffect(() => {
@@ -87,7 +93,7 @@ export function MovementTile({
       <GameObject
         position={position}
         isHidden={isHidden}
-        imageUri={ui.default.selected.uri}
+        imageUri={ui.select[mode].uri}
         onPress={onPress}
       />
     </Animated.View>

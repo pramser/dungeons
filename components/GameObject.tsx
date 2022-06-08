@@ -31,7 +31,7 @@ export default function GameObject({
   }
 
   if (!yOffset) {
-    yOffset = 14;
+    yOffset = 8;
   }
 
   const style = {
