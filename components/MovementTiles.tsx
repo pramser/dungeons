@@ -1,5 +1,7 @@
 import GameObject from "./GameObject";
 import { ui } from "../assets";
+import { useEffect, useRef } from "react";
+import { Animated } from "react-native";
 
 interface MovementTilesProps {
   amount: number;
@@ -57,12 +59,37 @@ export function MovementTile({
   isHidden,
   onPress,
 }: MovementTileProps) {
+  let fadeAnim = new Animated.Value(1);
+
+  if (isHidden) {
+    return null;
+  }
+
+  useEffect(() => {
+    Animated.loop(
+      Animated.sequence([
+        Animated.timing(fadeAnim, {
+          toValue: 0,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+        Animated.timing(fadeAnim, {
+          toValue: 1,
+          duration: 500,
+          useNativeDriver: true,
+        }),
+      ])
+    ).start();
+  });
+
   return (
-    <GameObject
-      position={position}
-      isHidden={isHidden}
-      imageUri={ui.default.selected.uri}
-      onPress={onPress}
-    />
+    <Animated.View style={{ opacity: fadeAnim }}>
+      <GameObject
+        position={position}
+        isHidden={isHidden}
+        imageUri={ui.default.selected.uri}
+        onPress={onPress}
+      />
+    </Animated.View>
   );
 }
