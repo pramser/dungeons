@@ -27,7 +27,7 @@ export default function Game() {
     roomX: entRoom.x,
     roomY: entRoom.y,
   });
-  const zoomableViewRef = createRef();
+  const zoomableViewRef: any = createRef();
 
   return (
     <View style={styles.game}>

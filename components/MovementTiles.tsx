@@ -13,7 +13,7 @@ export default function MovementTiles({
   isHidden,
   position,
   onPress,
-}: MovementTilesProps) {
+}: MovementTilesProps): any {
   // tile props
   let tiles = [];
 
