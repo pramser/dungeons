@@ -1,26 +1,28 @@
-import GameObject from "./GameObject";
-import { ui } from "../assets";
-import { useEffect, useRef } from "react";
+import { useEffect } from "react";
 import { Animated } from "react-native";
 
+import GameObject from "./GameObject";
+
+import { ui } from "../assets";
+
 interface SelectionTilesProps {
-  amount: number;
   isHidden?: boolean;
-  position: any;
   onPress(position: any): void;
+  position: any;
+  range: number;
 }
 
 export default function SelectionTiles({
-  amount,
   isHidden,
-  position,
   onPress,
+  position,
+  range,
 }: SelectionTilesProps): any {
   // tile props
   let tiles = [];
 
   // amount of tiles
-  for (let t = 0; t < amount; t++) {
+  for (let t = 0; t < range; t++) {
     tiles.push([
       <SelectionTile
         position={{ ...position, x: position.x + 1 }}
@@ -68,20 +70,20 @@ export function SelectionTile({
   }
 
   if (!mode) {
-    mode = "option";
+    mode = "default";
   }
 
   useEffect(() => {
     Animated.loop(
       Animated.sequence([
         Animated.timing(fadeAnim, {
-          toValue: 0,
-          duration: 500,
+          toValue: 0.5,
+          duration: 300,
           useNativeDriver: true,
         }),
         Animated.timing(fadeAnim, {
           toValue: 1,
-          duration: 500,
+          duration: 300,
           useNativeDriver: true,
         }),
       ])

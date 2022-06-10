@@ -53,7 +53,7 @@ export default function Game() {
           )}
           <SelectionTiles
             position={pPos}
-            amount={1}
+            range={2}
             isHidden={!isPlayerMoving}
             onPress={(pos) => {
               setPlayerPos(pos);
