@@ -11,7 +11,7 @@ export default function Player({ name, position }: PlayerProps) {
     <GameObject
       imageUri={people["default"][name]["ld"].uri}
       position={position}
-      yOffset={-6}
+      yOffset={-4}
     />
   );
 }

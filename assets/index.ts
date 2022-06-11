@@ -17,9 +17,14 @@ export const rooms: any = {
 
 export const people: any = {
   default: {
-    player: {
+    blue: {
       ld: {
-        uri: require("./default/people/player/left_down.png"),
+        uri: require("./default/people/blue/left_down.png"),
+      },
+    },
+    red: {
+      ld: {
+        uri: require("./default/people/red/left_down.png"),
       },
     },
   },

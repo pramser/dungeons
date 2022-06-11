@@ -41,8 +41,8 @@ export default class GameManager {
       exitRoom: floorData.exitRoom,
       floorSize: this.floorSize,
       players: [
-        { acctId: 1, playerId: 1, charName: "Patrick", dex: 5 },
-        { acctId: 2, playerId: 2, charName: "Jon", dex: 3 },
+        { acctId: 1, playerId: 1, charName: "Patrick", asset: "blue", dex: 5 },
+        { acctId: 2, playerId: 2, charName: "Jon", asset: "red", dex: 3 },
       ],
       rooms2d: floorData.rooms,
       roomSize: this.roomSize,

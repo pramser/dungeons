@@ -41,6 +41,7 @@ export default function Game() {
         style={styles.zoomView}
       >
         <View style={styles.dungeon}>
+          
           {rooms2d.map((rooms) =>
             rooms.map((room) => (
               <Room
@@ -61,8 +62,8 @@ export default function Game() {
               setIsPlayerMoving(false);
             }}
           />
-          <Player position={pPos} name="player" />
-          <Player position={pPos} name="player" />
+          <Player position={pPos} name="red" />
+          <Player position={{...pPos, x: pPos.x + 1}} name="blue" />
         </View>
       </ReactNativeZoomableView>
       <Text style={styles.turns}>{players[currentTurn].charName}</Text>
