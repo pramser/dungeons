@@ -78,6 +78,7 @@ export default function SelectionTiles({
 
     tiles.push([
       <SelectionTile
+        key={tilePosition}
         position={tilePosition}
         isHidden={isHidden}
         onPress={onPress}

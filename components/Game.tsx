@@ -44,6 +44,7 @@ export default function Game() {
           {rooms2d.map((rooms) =>
             rooms.map((room) => (
               <Room
+                key={room.describe()}
                 room={room}
                 onPress={(rp) =>
                   zoomableViewRef.current.moveTo(rp.x + 320, rp.y + 350)
@@ -60,6 +61,7 @@ export default function Game() {
               setIsPlayerMoving(false);
             }}
           />
+          <Player position={pPos} name="player" />
           <Player position={pPos} name="player" />
         </View>
       </ReactNativeZoomableView>
