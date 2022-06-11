@@ -16,7 +16,7 @@ let gameManager = new GameManager(
   "dungeon"
 );
 
-let { entRoom, players, rooms2d, set } = gameManager.createGame();
+let { entRoom, players, rooms2d } = gameManager.createGame();
 
 export default function Game() {
   const [currentTurn, setCurrentTurn] = useState(0);
@@ -53,7 +53,7 @@ export default function Game() {
           )}
           <SelectionTiles
             position={pPos}
-            range={2}
+            range={1}
             isHidden={!isPlayerMoving}
             onPress={(pos) => {
               setPlayerPos(pos);

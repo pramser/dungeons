@@ -5,6 +5,49 @@ import GameObject from "./GameObject";
 
 import { ui } from "../assets";
 
+/**
+ * Shapes for selection ranges
+ * - These should be loaded every time
+ * this component loads so they're available whenever
+ * I need them.
+ */
+const Shapes = {
+  star: [
+    [
+      [0, -1],
+      [-1, 0],
+      [1, 0],
+      [0, 1],
+    ],
+    [
+      [-1, -1],
+      [0, -1],
+      [1, -1],
+      [-1, 0],
+      [1, 0],
+      [-1, 1],
+      [0, 1],
+      [1, 1],
+      [0, -2],
+      [-2, 0],
+      [2, 0],
+      [0, 2],
+    ],
+  ],
+  square: [
+    [
+      [-1, -1],
+      [0, -1],
+      [1, -1],
+      [-1, 0],
+      [1, 0],
+      [-1, 1],
+      [0, 1],
+      [1, 1],
+    ],
+  ],
+};
+
 interface SelectionTilesProps {
   isHidden?: boolean;
   onPress(position: any): void;
@@ -18,29 +61,24 @@ export default function SelectionTiles({
   position,
   range,
 }: SelectionTilesProps): any {
+  // get shape from consts
+  let shape = Shapes.square[range - 1];
+
   // tile props
   let tiles = [];
 
   // amount of tiles
-  for (let t = 0; t < range; t++) {
+  for (let t = 0; t < shape.length; t++) {
+    let [xOffset, yOffset] = shape[t];
+    let tilePosition = {
+      ...position,
+      x: position.x + xOffset,
+      y: position.y + yOffset,
+    };
+
     tiles.push([
       <SelectionTile
-        position={{ ...position, x: position.x + 1 }}
-        isHidden={isHidden}
-        onPress={onPress}
-      />,
-      <SelectionTile
-        position={{ ...position, x: position.x - 1 }}
-        isHidden={isHidden}
-        onPress={onPress}
-      />,
-      <SelectionTile
-        position={{ ...position, y: position.y + 1 }}
-        isHidden={isHidden}
-        onPress={onPress}
-      />,
-      <SelectionTile
-        position={{ ...position, y: position.y - 1 }}
+        position={tilePosition}
         isHidden={isHidden}
         onPress={onPress}
       />,
