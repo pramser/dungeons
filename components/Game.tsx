@@ -1,13 +1,15 @@
 import { createRef, useState } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import ReactNativeZoomableView from "@openspacelabs/react-native-zoomable-view/src/ReactNativeZoomableView";
+
+import GameManager from "../types/GameManager";
+import { FloorSize, RoomSize } from "../types/DungeonEssentials";
 
 import Room from "./Room";
 import Player from "./Player";
 import SelectionTiles from "./SelectionTiles";
-
-import { FloorSize, RoomSize } from "../types/DungeonEssentials";
-import GameManager from "../types/GameManager";
+import SimpleActionBar from "./SimpleActionBar";
+import TurnOrderPanel from "./TurnOrderPanel";
 
 let gameManager = new GameManager(FloorSize.small, RoomSize.normal);
 let rooms2d = gameManager.createGame();
@@ -55,15 +57,8 @@ export default function Game() {
           <Player player={gameManager.players[1]} />
         </View>
       </ReactNativeZoomableView>
-      <Text style={styles.turns}>
-        {activePlayer.charName} - {activePlayer.stats.hp}
-      </Text>
-      <TouchableOpacity
-        style={styles.floatingButton}
-        onPress={() => setIsPlayerMoving(!isPlayerMoving)}
-      >
-        <Text style={styles.floatingButtonText}>+</Text>
-      </TouchableOpacity>
+      <TurnOrderPanel activePlayer={activePlayer} />
+      <SimpleActionBar onPressMove={() => setIsPlayerMoving(!isPlayerMoving)} />
     </View>
   );
 }
@@ -72,31 +67,9 @@ const styles = StyleSheet.create({
   dungeon: {
     position: "absolute",
   },
-  floatingButton: {
-    width: 60,
-    height: 60,
-    borderRadius: 30,
-    backgroundColor: "#4277AD",
-    position: "absolute",
-    bottom: 15,
-    right: 15,
-    justifyContent: "center",
-    alignItems: "center",
-  },
-  floatingButtonText: {
-    marginTop: -5,
-    fontSize: 40,
-    color: "white",
-  },
   game: {
     flex: 1,
     backgroundColor: "#333",
-  },
-  turns: {
-    position: "absolute",
-    top: 10,
-    right: 10,
-    color: "white",
   },
   zoomView: {
     flex: 1,
