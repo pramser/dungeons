@@ -9,24 +9,11 @@ import SelectionTiles from "./SelectionTiles";
 import { FloorSize, RoomSize } from "../types/DungeonEssentials";
 import GameManager from "../types/GameManager";
 
-let gameManager = new GameManager(
-  FloorSize.small,
-  RoomSize.normal,
-  "default",
-  "dungeon"
-);
-
-let { entRoom, players, rooms2d } = gameManager.createGame();
+let gameManager = new GameManager(FloorSize.small, RoomSize.normal);
+let rooms2d = gameManager.createGame();
 
 export default function Game() {
-  const [currentTurn, setCurrentTurn] = useState(0);
   const [isPlayerMoving, setIsPlayerMoving] = useState(false);
-  const [pPos, setPlayerPos] = useState({
-    x: 3,
-    y: 1,
-    roomX: entRoom.x,
-    roomY: entRoom.y,
-  });
   const zoomableViewRef: any = createRef();
 
   return (
@@ -41,7 +28,6 @@ export default function Game() {
         style={styles.zoomView}
       >
         <View style={styles.dungeon}>
-          
           {rooms2d.map((rooms) =>
             rooms.map((room) => (
               <Room
@@ -54,19 +40,20 @@ export default function Game() {
             ))
           )}
           <SelectionTiles
-            position={pPos}
+            position={gameManager.activePlayer().position}
             range={1}
             isHidden={!isPlayerMoving}
             onPress={(pos) => {
-              setPlayerPos(pos);
+              gameManager.moveActivePlayer(pos);
               setIsPlayerMoving(false);
+              gameManager.nextTurn();
             }}
           />
-          <Player position={pPos} name="red" />
-          <Player position={{...pPos, x: pPos.x + 1}} name="blue" />
+          <Player player={gameManager.players[0]} />
+          <Player player={gameManager.players[1]} />
         </View>
       </ReactNativeZoomableView>
-      <Text style={styles.turns}>{players[currentTurn].charName}</Text>
+      <Text style={styles.turns}>{gameManager.activePlayer().charName}</Text>
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => setIsPlayerMoving(!isPlayerMoving)}
