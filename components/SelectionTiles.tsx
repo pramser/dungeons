@@ -50,7 +50,7 @@ const Shapes = {
 
 interface SelectionTilesProps {
   isHidden?: boolean;
-  mode?: string;
+  mode?: string | null;
   onPress(position: any): void;
   position: any;
   range: number;
@@ -95,7 +95,7 @@ export default function SelectionTiles({
 interface SelectionTileProps {
   position: any;
   isHidden?: boolean;
-  mode?: string;
+  mode?: string | null;
   onPress(position: any): void;
 }
 
