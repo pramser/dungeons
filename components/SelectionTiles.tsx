@@ -76,7 +76,10 @@ export default function SelectionTiles(props: SelectionTilesProps): any {
       y: position.y + yOffset,
     };
 
-    if (collision?.some((c) => c.equals(tilePosition))) continue;
+    // for def movement; add collision
+    if (mode === "def") {
+      if (collision?.some((c) => c.equals(tilePosition))) continue;
+    }
 
     tiles.push([
       <SelectionTile
