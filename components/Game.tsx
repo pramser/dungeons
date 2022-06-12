@@ -15,7 +15,9 @@ let gameManager = new GameManager(FloorSize.small, RoomSize.normal);
 let rooms2d = gameManager.createGame();
 
 export default function Game() {
-  const [isPlayerMoving, setIsPlayerMoving] = useState(false);
+  const [playerAction, setPlayerAction] = useState<string | undefined>(
+    undefined
+  );
   const zoomableViewRef: any = createRef();
 
   let activePlayer = gameManager.activePlayer();
@@ -46,10 +48,11 @@ export default function Game() {
           <SelectionTiles
             position={gameManager.activePlayer().position}
             range={2}
-            isHidden={!isPlayerMoving}
+            isHidden={!playerAction}
+            mode={playerAction}
             onPress={(pos) => {
               gameManager.moveActivePlayer(pos);
-              setIsPlayerMoving(false);
+              setPlayerAction(undefined);
               gameManager.nextTurn();
             }}
           />
@@ -59,8 +62,12 @@ export default function Game() {
       </ReactNativeZoomableView>
       <TurnOrderPanel activePlayer={activePlayer} />
       <SimpleActionBar
-        onPressMove={() => setIsPlayerMoving(!isPlayerMoving)}
-        onPressAttack={() => setIsPlayerMoving(!isPlayerMoving)}
+        onPressMove={() =>
+          setPlayerAction(!playerAction ? "default" : undefined)
+        }
+        onPressAttack={() =>
+          setPlayerAction(!playerAction ? "attack" : undefined)
+        }
       />
     </View>
   );
