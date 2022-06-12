@@ -16,6 +16,8 @@ export default function Game() {
   const [isPlayerMoving, setIsPlayerMoving] = useState(false);
   const zoomableViewRef: any = createRef();
 
+  let activePlayer = gameManager.activePlayer();
+
   return (
     <View style={styles.game}>
       <ReactNativeZoomableView
@@ -53,7 +55,9 @@ export default function Game() {
           <Player player={gameManager.players[1]} />
         </View>
       </ReactNativeZoomableView>
-      <Text style={styles.turns}>{gameManager.activePlayer().charName}</Text>
+      <Text style={styles.turns}>
+        {activePlayer.charName} - {activePlayer.stats.hp}
+      </Text>
       <TouchableOpacity
         style={styles.floatingButton}
         onPress={() => setIsPlayerMoving(!isPlayerMoving)}

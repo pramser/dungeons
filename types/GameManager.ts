@@ -24,7 +24,12 @@ export default class GameManager {
         playerId: 1,
         charName: "Patrick",
         asset: "blue",
-        dex: 5,
+        stats: {
+          exp: 200,
+          hp: 100,
+          atk: 20,
+          speed: 5,
+        },
         position: {
           x: 3,
           y: 1,
@@ -37,7 +42,12 @@ export default class GameManager {
         playerId: 2,
         charName: "Jon",
         asset: "red",
-        dex: 3,
+        stats: {
+          exp: 200,
+          hp: 100,
+          atk: 20,
+          speed: 3,
+        },
         position: {
           x: 3,
           y: 2,
