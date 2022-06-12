@@ -41,7 +41,7 @@ export default function Game() {
           )}
           <SelectionTiles
             position={gameManager.activePlayer().position}
-            range={1}
+            range={2}
             isHidden={!isPlayerMoving}
             onPress={(pos) => {
               gameManager.moveActivePlayer(pos);

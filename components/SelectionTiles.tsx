@@ -62,7 +62,7 @@ export default function SelectionTiles({
   range,
 }: SelectionTilesProps): any {
   // get shape from consts
-  let shape = Shapes.square[range - 1];
+  let shape = Shapes.star[range - 1];
 
   // tile props
   let tiles = [];
