@@ -62,12 +62,8 @@ export default function Game() {
       </ReactNativeZoomableView>
       <TurnOrderPanel activePlayer={activePlayer} />
       <SimpleActionBar
-        onPressMove={() =>
-          setPlayerAction(!playerAction ? "default" : undefined)
-        }
-        onPressAttack={() =>
-          setPlayerAction(!playerAction ? "attack" : undefined)
-        }
+        onPressMove={() => setPlayerAction(!playerAction ? "def" : undefined)}
+        onPressAttack={() => setPlayerAction(!playerAction ? "atk" : undefined)}
       />
     </View>
   );

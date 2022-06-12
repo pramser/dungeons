@@ -32,17 +32,17 @@ export const people: any = {
 
 export const ui: any = {
   select: {
-    attack: {
-      uri: require("./select/attack.png"),
+    atk: {
+      uri: require("./select/atk.png"),
     },
-    default: {
-      uri: require("./select/default.png"),
+    def: {
+      uri: require("./select/def.png"),
     },
     heal: {
       uri: require("./select/heal.png"),
     },
-    option: {
-      uri: require("./select/option.png"),
+    opt: {
+      uri: require("./select/opt.png"),
     },
   },
 };
