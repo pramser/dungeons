@@ -1,6 +1,6 @@
 import DungeonGenerator from "./DungeonGenerator";
 import { Room } from "./DungeonEssentials";
-import { Player, Position } from "./GameEssentials";
+import { GameObject, Player, Position } from "./GameEssentials";
 
 export default class GameManager {
   // dungeon config
@@ -21,19 +21,25 @@ export default class GameManager {
     let floorData = dungeonGenerator.generate(this.floorSize);
 
     // players
-    let patrick = new Player(
+    let ramza = new Player(
       Position.new(3, 1, floorData.entranceRoom.x, floorData.entranceRoom.y),
       "blue",
-      "Patrick"
+      "Ramza"
     );
 
-    let jon = new Player(
+    let petyr = new Player(
       Position.new(4, 1, floorData.entranceRoom.x, floorData.entranceRoom.y),
       "red",
-      "Jon"
+      "Petyr"
     );
 
-    this.players = [patrick, jon];
+    let willem = new Player(
+      Position.new(3, 2, floorData.entranceRoom.x, floorData.entranceRoom.y),
+      "green",
+      "Willem"
+    );
+
+    this.players = [ramza, petyr, willem];
     return floorData.rooms;
   }
 
@@ -42,11 +48,20 @@ export default class GameManager {
   }
 
   nextTurn(): void {
-    this.currentTurn = this.currentTurn === 0 ? 1 : 0;
+    if (this.currentTurn === this.players.length - 1) {
+      this.currentTurn = 0;
+      return;
+    }
+
+    this.currentTurn++;
   }
 
   activePlayer(): Player {
     return this.players[this.currentTurn];
+  }
+
+  collision(): Position[] {
+    return this.players.map((p) => p.position);
   }
 
   saveGame() {

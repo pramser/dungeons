@@ -22,6 +22,11 @@ export const people: any = {
         uri: require("./default/people/blue/left_down.png"),
       },
     },
+    green: {
+      ld: {
+        uri: require("./default/people/green/left_down.png"),
+      },
+    },
     red: {
       ld: {
         uri: require("./default/people/red/left_down.png"),

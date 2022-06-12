@@ -4,6 +4,7 @@ import { Animated } from "react-native";
 import GameObject from "./GameObject";
 
 import { ui } from "../assets";
+import { Position } from "../types/GameEssentials";
 
 /**
  * Shapes for selection ranges
@@ -51,18 +52,15 @@ const Shapes = {
 interface SelectionTilesProps {
   isHidden?: boolean;
   mode?: string | null;
+  collision?: Position[];
   onPress(position: any): void;
   position: any;
   range: number;
 }
 
-export default function SelectionTiles({
-  isHidden,
-  mode,
-  onPress,
-  position,
-  range,
-}: SelectionTilesProps): any {
+export default function SelectionTiles(props: SelectionTilesProps): any {
+  let { isHidden, mode, collision, onPress, position, range } = props;
+
   // get shape from consts
   let shape = Shapes.star[range - 1];
 

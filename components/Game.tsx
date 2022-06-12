@@ -19,6 +19,7 @@ export default function Game() {
   const zoomableViewRef: any = createRef();
 
   let activePlayer = gameManager.activePlayer();
+  let collision = gameManager.collision();
 
   return (
     <View style={styles.game}>
@@ -45,6 +46,7 @@ export default function Game() {
           )}
           <SelectionTiles
             position={gameManager.activePlayer().position}
+            collision={collision}
             range={2}
             isHidden={!playerAction}
             mode={playerAction}
@@ -54,8 +56,9 @@ export default function Game() {
               gameManager.nextTurn();
             }}
           />
-          <Player player={gameManager.players[0]} />
-          <Player player={gameManager.players[1]} />
+          {gameManager.players.map((player) => (
+            <Player key={player.describe()} player={player} />
+          ))}
         </View>
       </ReactNativeZoomableView>
       <TurnOrderPanel activePlayer={activePlayer} />
