@@ -1,6 +1,6 @@
 import DungeonGenerator from "./DungeonGenerator";
 import { Room } from "./DungeonEssentials";
-import { GameObject, Player, Position } from "./GameEssentials";
+import { Player, Position } from "./GameEssentials";
 
 export default class GameManager {
   // dungeon config

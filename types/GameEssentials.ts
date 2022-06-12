@@ -44,6 +44,19 @@ export class Position {
       this.roomY = partial.roomY;
     }
   }
+
+  equals(position: any): boolean {
+    if (
+      this.x === position.x &&
+      this.y === position.y &&
+      this.roomX === position.roomX &&
+      this.roomY === position.roomY
+    ) {
+      return true;
+    }
+
+    return false;
+  }
 }
 
 interface IGameObject {

@@ -76,6 +76,8 @@ export default function SelectionTiles(props: SelectionTilesProps): any {
       y: position.y + yOffset,
     };
 
+    if (collision?.some((c) => c.equals(tilePosition))) continue;
+
     tiles.push([
       <SelectionTile
         key={tilePosition}
@@ -97,12 +99,8 @@ interface SelectionTileProps {
   onPress(position: any): void;
 }
 
-export function SelectionTile({
-  position,
-  isHidden,
-  mode,
-  onPress,
-}: SelectionTileProps) {
+export function SelectionTile(props: SelectionTileProps) {
+  let { position, isHidden, mode, onPress } = props;
   let fadeAnim = new Animated.Value(1);
 
   if (isHidden) {
