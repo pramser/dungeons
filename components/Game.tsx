@@ -15,6 +15,7 @@ let gameManager = new GameManager(FloorSize.small, RoomSize.normal);
 let rooms2d = gameManager.createGame();
 
 export default function Game() {
+  const [forceUpdate, setForceUpdate] = useState(false);
   const [playerAction, setPlayerAction] = useState<string | null>(null);
   const zoomableViewRef: any = createRef();
 
@@ -61,10 +62,17 @@ export default function Game() {
           ))}
         </View>
       </ReactNativeZoomableView>
-      <TurnOrderPanel activePlayer={activePlayer} />
+      <TurnOrderPanel
+        key={`turn (${gameManager.currentTurn})`}
+        activePlayer={activePlayer}
+      />
       <SimpleActionBar
-        onPressMove={() => setPlayerAction(!playerAction ? "def" : null)}
         onPressAttack={() => setPlayerAction(!playerAction ? "atk" : null)}
+        onPressMove={() => setPlayerAction(!playerAction ? "def" : null)}
+        onPressWait={() => {
+          gameManager.nextTurn();
+          setForceUpdate(!forceUpdate);
+        }}
       />
     </View>
   );
