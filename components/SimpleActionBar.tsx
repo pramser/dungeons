@@ -10,12 +10,12 @@ export default function SimpleActionBar(props: SimpleActionBarProps) {
   let { onPressMove, onPressAttack, onPressWait } = props;
 
   return (
-    <View>
+    <View style={styles.actionPanel}>
       <TouchableOpacity
-        style={{ ...styles.floatingButton, ...styles.waitButton }}
-        onPress={onPressWait}
+        style={{ ...styles.floatingButton, ...styles.moveButton }}
+        onPress={onPressMove}
       >
-        <Text style={styles.floatingButtonText}>Wait</Text>
+        <Text style={styles.floatingButtonText}>Move</Text>
       </TouchableOpacity>
       <TouchableOpacity
         style={{ ...styles.floatingButton, ...styles.attackButton }}
@@ -24,42 +24,45 @@ export default function SimpleActionBar(props: SimpleActionBarProps) {
         <Text style={styles.floatingButtonText}>Attack</Text>
       </TouchableOpacity>
       <TouchableOpacity
-        style={{ ...styles.floatingButton, ...styles.moveButton }}
-        onPress={onPressMove}
+        style={{ ...styles.floatingButton, ...styles.waitButton }}
+        onPress={onPressWait}
       >
-        <Text style={styles.floatingButtonText}>Move</Text>
+        <Text style={styles.floatingButtonText}>Wait</Text>
       </TouchableOpacity>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
-  floatingButton: {
-    width: 120,
-    height: 60,
-    borderRadius: 30,
+  actionPanel: {
     position: "absolute",
-    justifyContent: "center",
+    alignSelf: "center",
+    bottom: 10,
+
+    width: 330,
+    height: 60,
+    backgroundColor: "#a09780",
+    borderRadius: 10,
+    borderWidth: 1,
+
+    flexDirection: "row",
+    justifyContent: "space-evenly",
     alignItems: "center",
   },
+  floatingButton: {
+    width: 100,
+    height: 30,
+    justifyContent: "center",
+    alignItems: "center",
+
+    borderRadius: 8,
+  },
   floatingButtonText: {
-    marginTop: -5,
-    fontSize: 20,
     color: "white",
+    fontFamily: "Altima",
+    fontSize: 20,
   },
-  attackButton: {
-    backgroundColor: "#800000",
-    bottom: 85,
-    right: 15,
-  },
-  moveButton: {
-    backgroundColor: "#4277AD",
-    bottom: 15,
-    right: 15,
-  },
-  waitButton: {
-    backgroundColor: "#000",
-    bottom: 155,
-    right: 15,
-  },
+  attackButton: { backgroundColor: "#800000" },
+  moveButton: { backgroundColor: "#4277AD" },
+  waitButton: { backgroundColor: "#000" },
 });
