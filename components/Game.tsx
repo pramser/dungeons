@@ -21,6 +21,7 @@ export default function Game() {
 
   let activePlayer = gameManager.activePlayer();
   let collision = gameManager.collision();
+  let players = gameManager.players;
 
   return (
     <View style={styles.game}>
@@ -46,7 +47,7 @@ export default function Game() {
             ))
           )}
           <SelectionTiles
-            position={gameManager.activePlayer().position}
+            position={activePlayer.position}
             collision={collision}
             range={2}
             isHidden={!playerAction}
@@ -57,7 +58,7 @@ export default function Game() {
               gameManager.nextTurn();
             }}
           />
-          {gameManager.players.map((player) => (
+          {players.map((player) => (
             <Player key={player.describe()} player={player} />
           ))}
         </View>
@@ -65,6 +66,7 @@ export default function Game() {
       <TurnOrderPanel
         key={`turn (${gameManager.currentTurn})`}
         activePlayer={activePlayer}
+        players={players}
       />
       <SimpleActionBar
         onPressAttack={() => setPlayerAction(!playerAction ? "atk" : null)}

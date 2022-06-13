@@ -1,14 +1,23 @@
-import { StyleSheet, Text } from "react-native";
+import { StyleSheet, Text, View } from "react-native";
+import { Player } from "../types/GameEssentials";
 
 interface TurnOrderPanelProps {
-  activePlayer: any;
+  activePlayer: Player;
+  players: Player[];
 }
 
-export default function TurnOrderPanel({ activePlayer }: TurnOrderPanelProps) {
+export default function TurnOrderPanel(props: TurnOrderPanelProps) {
+  let { activePlayer, players } = props;
+
   return (
-    <Text style={styles.turns}>
-      {activePlayer.charName} - {activePlayer.stats.hp}
-    </Text>
+    <View style={styles.turns}>
+      {players.map((player) => (
+        <Text style={styles.turnsText}>
+          {activePlayer.charName === player.charName ? "* " : ""}
+          {player.charName} - {player.stats.hp}
+        </Text>
+      ))}
+    </View>
   );
 }
 
@@ -17,7 +26,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     top: 10,
     right: 10,
-
+  },
+  turnsText: {
     color: "white",
     fontFamily: "Altima",
     fontSize: 24,
